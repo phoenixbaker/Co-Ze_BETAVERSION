@@ -23,7 +23,10 @@ const validationSchema = Yup.object().shape({
 function LoginScreen({ navigation }) {
   const validateLogin = async ({ email, password }) => {
     const result = await fetchAuth(email, password);
-    if (result === true) navigation.navigate('Dashboard');
+    if (result === true) {
+      // navigation.navigate('Dashboard');
+      navigation.reset({index: -1, routes:[{name: 'Dashboard'}]});
+    }
   }
 
   return (

@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableHighlight } from 'react-native';
 
 import Colours from '../config/Colours';
 import AppText from '../config/AppText';
 
-function Card({cardStyle, children, childrenStyle, title, titleStyle}) {
+function Card({cardStyle, children, childrenStyle, title, titleStyle, onPress}) {
     return (
+        <TouchableHighlight 
+        underlayColor={Colours.lightgray}
+        onPress = {onPress} >
         <View
             style={[styles.card, cardStyle]}
         >
@@ -22,6 +25,7 @@ function Card({cardStyle, children, childrenStyle, title, titleStyle}) {
                 {children}
             </View>
         </View>
+        </TouchableHighlight>
     );
 }
 

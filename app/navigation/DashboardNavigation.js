@@ -2,33 +2,39 @@ import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-
+import LocationScreen from '../screens/LocationScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 import AccountScreen from '../screens/AccountScreen';
+import MessagesScreen from '../screens/MessagesScreen';
 
 const Tabs = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+function Dashboard() {
+    return(
+  <Tabs.Navigator screenOptions={{ headerShown: false }}>
+    <Tabs.Screen name="Dashboard" component={DashboardScreen} />
+    <Tabs.Screen name="Account" component={AccountScreen} />
+    <Tabs.Screen name="Messages" component={MessagesScreen} />
+  </Tabs.Navigator>
+    );
+}
+
 const DashboardNavigation = () => (
-    <>
-    <Tabs.Navigator
-        screenOptions={{ headerShown: false}}
+    <Stack.Navigator
     >
-        <Tabs.Screen
-            name="Dashboard"
-            component={DashboardScreen}
+        <Stack.Screen 
+            name = "Bottom"
+            component={ Dashboard }
+            option={{headerShown:false}}
         />
-        <Tabs.Screen
-            name="Account"
-            component={AccountScreen}
-        />
-        <Tabs.Screen
-            name="Messages"
-            component={AccountScreen}
+        <Stack.Screen 
+            name = "Location"
+            component={ LocationScreen }
+            option = {{headerShown: true}}
         />
 
-    </Tabs.Navigator>
-    </>
+    </Stack.Navigator>
 )
 
 export default DashboardNavigation;

@@ -8,12 +8,12 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import MessagesScreen from "./app/screens/MessagesScreen";
 import LocationScreen from "./app/screens/LocationScreen";
+import getLocation from "./app/components/Location";
 
 export default function App(props) {
   return (
-    // <NavigationContainer>
-    //   <AuthNavigator />
-    // </NavigationContainer>
-    <LocationScreen />
+    <NavigationContainer>
+      <AuthNavigator />
+    </NavigationContainer>
   );
 };

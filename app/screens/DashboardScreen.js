@@ -5,7 +5,7 @@ import Card from '../components/Card';
 import Screen from "../components/Screen"
 import AppText from '../config/AppText';
 
-function DashboardScreen(props) {
+function DashboardScreen({navigation}) {
     return (
         <Screen>
             <Card title="Fridge">
@@ -13,7 +13,10 @@ function DashboardScreen(props) {
                     NOTES AND CHECKLIST
                 </AppText>
             </Card>
-            <Card title="Family Members">
+            <Card
+            title="Family Members"
+            onPress={() => navigation.navigate("Location")}
+            >
                 <AppText>
                     PHOTO - NAME - Last Active *2 mins*
                 </AppText>

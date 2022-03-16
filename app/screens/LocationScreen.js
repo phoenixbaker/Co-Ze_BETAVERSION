@@ -7,7 +7,6 @@ import Screen from '../components/Screen';
 
 function LocationScreen(props) {
     let location = getLocation();
-    console.log(location);
     return (
         <Screen>
             {location != false &&
