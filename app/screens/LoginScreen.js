@@ -12,7 +12,6 @@ import AppButton from "../components/AppButton";
 import Colours from "../config/Colours";
 import { AppFormField, AppForm, SubmitButton } from "../components/forms";
 import fetchAuth from "../api/auth";
-import { CommonActions } from "@react-navigation/native";
 
 
 const validationSchema = Yup.object().shape({
@@ -22,9 +21,8 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const validateLogin = async ({ email, password }) => {
-    const result = await fetchAuth(email, password);
-    if (result === true) {
-      // navigation.navigate('Dashboard');
+    const data = await fetchAuth(email, password);
+    if (data === true) {
       navigation.reset({index: -1, routes:[{name: 'Dashboard'}]});
     }
   }
