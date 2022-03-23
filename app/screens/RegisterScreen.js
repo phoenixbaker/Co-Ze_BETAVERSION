@@ -12,6 +12,7 @@ import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import postUser from "../api/users";
 
 // MAKE DOB HAVE // IN INPUT
+// CLEAN CODE
 // CENTER
 // MAKE ANOTHER PAGE BEFORE THIS FOR OTHER OPTIONS
 // LINK TO BACKEND (CREATE ONE ASWELL)
@@ -25,11 +26,11 @@ const validationSchema = Yup.object().shape({
   DOBirth: Yup.string().required().label("DOB"),
 });
 
-function RegisterScreen({navigation}) {
-  const registerUser = async ({email, password, DOBirth, fullName }) => {
+function RegisterScreen({ navigation }) {
+  const registerUser = async ({ email, password, DOBirth, fullName }) => {
     const result = await postUser(email, password, DOBirth, fullName);
     if (result === true) navigation.navigate("Dashboard");
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

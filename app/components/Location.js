@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Platform, Text, View, StyleSheet } from "react-native";
 import * as Location from "expo-location";
 
+import updateLocation from "../api/location";
+import global from "../config/global";
+
 export default function getLocation() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -13,25 +16,22 @@ export default function getLocation() {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     })();
   }, []);
 
   let text = {
-      "coords": {
-          "longitude": 0, //last known location 
-          "latitude": 0 //last known location
-      }
-  }
+    coords: {
+      longitude: global.location.coords.latitude, //last known location
+      latitude: global.location.coords.longitude, //last known location
+    },
+  };
   if (errorMsg) {
     text = errorMsg;
-  } else if (location) {
-    text = location;
+  } else {
+    return (text);
   }
-
-  return (text);
 }
 
 const styles = StyleSheet.create({

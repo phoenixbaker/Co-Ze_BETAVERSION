@@ -2,14 +2,23 @@ import apiClient from "./client";
 
 const endpoint = "/location";
 
-const postLocation = async ({longitude, latitude}, email) => {
-    const {data} = await apiClient.post(endpoint,
-        {
-            email: email,
-            longitude: longitude,
-            latitude: latitude
-        });
-        return data;
+const getLocation = async (id) => {
+  const {data} = await apiClient.post(endpoint, {
+    id: id,
+  });
+  console.log(data);
+  return data;
 };
 
-export default postLocation;
+const updateLocation = async (latitude, longitude, id) => {
+  const { data } = await apiClient.post(endpoint, {
+    id: id,
+    longitude: longitude,
+    latitude: latitude,
+  });
+  console.log(data);
+  return data;
+};
+
+
+export default updateLocation;

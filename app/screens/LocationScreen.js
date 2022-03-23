@@ -2,33 +2,33 @@ import React from 'react';
 import MapView, {Marker} from 'react-native-maps';
 import { Text, StyleSheet, Platform } from 'react-native';
 
-import getLocation from '../components/Location';
+import updateLocation from '../components/Location';
 import Screen from '../components/Screen';
+import global from '../config/global';
 
 function LocationScreen(props) {
-    let location = getLocation();
+    global.location = updateLocation();
+    console.log(global.location.coords);
     return (
-        <Screen>
-            {location != false &&
-            <MapView 
-            style={styles.map}
-                initialRegion={{
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude
-                }}
-            >
-                <Marker 
-                style={styles.marker}
-                coordinate= {{
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude
-                }}
-                icon={require("../assets/ProfilePicture.jpg")}
-                />
-                
-                </MapView>
-            }
-        </Screen>
+      <Screen>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: global.location.coords.latitude,
+            longitude: global.location.coords.longitude,
+            latitudeDelta: 0.15,
+            longitudeDelta: 0.0121,
+          }}
+        >
+          <Marker
+            coordinate={{
+              latitude: global.location.coords.latitude,
+              longitude: global.location.coords.longitude,
+              
+            }}
+          />
+        </MapView>
+      </Screen>
     );
 }
 
