@@ -6,6 +6,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 import LoginScreen from "../screens/LoginScreen";
 import DashboardNavigation from "./DashboardNavigation";
 import NewUserDashboardNavigator from "./NewUserDashboardNavigator";
+import NewUserDashboardScreen from "../screens/NewUserDashboardScreen";
 
 const Stack = createNativeStackNavigator();
 

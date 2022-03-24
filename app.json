@@ -5,7 +5,8 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "splash": {
-      "resizeMode": "contain",
+      "image": "./app/assets/splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {

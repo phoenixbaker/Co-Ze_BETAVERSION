@@ -8,12 +8,11 @@ import {
 } from "react-native";
 import * as Yup from "yup";
 
-import global from "../config/global";
 import AppButton from "../components/AppButton";
 import Colours from "../config/Colours";
 import { AppFormField, AppForm, SubmitButton } from "../components/forms";
 import fetchAuth from "../api/auth";
-
+import useAuth from "../auth/useAuth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -21,19 +20,12 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen({ navigation }) {
+  const { logIn } = useAuth();
+
   const validateLogin = async ({ email, password }) => {
-    const data = await fetchAuth(email, password);
-    if (data.ok) {
-      global.data = data.data;
-      console.log("Here");
-      if (JSON.stringify(global.data.households).length === 2){
-        console.log("HERE 2");
-        navigation.reset({index: -1, routes: [{ name: "NewUserDashboard"}]});
-      } else {
-        navigation.reset({ index: -1, routes: [{ name: "Dashboard" }] });
-      }
-    }
-  }
+    const result = await fetchAuth(email, password);
+    if (result.ok) logIn(result.data);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
