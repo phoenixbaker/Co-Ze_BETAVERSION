@@ -6,9 +6,8 @@ import AppLoading from "expo-app-loading";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import AuthContext from "./app/auth/context";
 import DashboardNavigation from "./app/navigation/DashboardNavigation";
+import NewUserDashboardNavigator from "./app/navigation/NewUserDashboardNavigator";
 import authStorage from "./app/auth/storage";
-
-// Make it so not everytime you open app it requires you to login
 
 export default function App(props) {
   const [user, setUser] = useState();
@@ -28,10 +27,17 @@ export default function App(props) {
       />
     );
   }
+
+  const newUser = () => {
+    if (JSON.stringify(user.households).length == 2)
+      return <NewUserDashboardNavigator />;
+    return <DashboardNavigation />;
+  };
+
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <NavigationContainer>
-        {user ? <DashboardNavigation /> : <AuthNavigator />}
+        {user ? newUser() : <AuthNavigator />}
       </NavigationContainer>
     </AuthContext.Provider>
   );

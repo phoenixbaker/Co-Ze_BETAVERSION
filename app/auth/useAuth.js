@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 
 import AuthContext from "./context";
 import authStorage from "./storage";
+import { useNavigation } from "@react-navigation/native";
 
 export default useAuth = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -17,12 +18,7 @@ export default useAuth = () => {
     const user = jwtDecode(authToken);
     setUser(user);
     console.log(user);
-    if (JSON.stringify(user.households).length === 2) {
-      console.log("here");
-      navigation.navigate("NewUserDashboard");
-    } else {
-      navigation.reset({ index: -1, routes: [{ name: "Dashboard" }] });
-    }
+    console.log(JSON.stringify(user.households).length);
   };
 
   return { user, logOut, logIn };

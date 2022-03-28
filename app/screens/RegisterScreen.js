@@ -10,6 +10,7 @@ import * as Yup from "yup";
 
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import postUser from "../api/users";
+import useAuth from "../auth/useAuth";
 
 // MAKE DOB HAVE // IN INPUT
 // CLEAN CODE
@@ -27,9 +28,11 @@ const validationSchema = Yup.object().shape({
 });
 
 function RegisterScreen({ navigation }) {
+  const { logIn } = useAuth();
+
   const registerUser = async ({ email, password, DOBirth, fullName }) => {
     const result = await postUser(email, password, DOBirth, fullName);
-    if (result === true) navigation.navigate("Dashboard");
+    if (result != undefined) logIn(result.data);
   };
 
   return (
