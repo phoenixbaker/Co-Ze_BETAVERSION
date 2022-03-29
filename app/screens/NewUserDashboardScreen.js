@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import useAuth from "../auth/useAuth";
+import useAuth from "../hooks/auth/useAuth";
 import AppButton from "../components/AppButton";
 
 import Screen from "../components/Screen";

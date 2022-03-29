@@ -1,5 +1,5 @@
 import { create } from "apisauce";
-import authStorage from "../auth/storage";
+import authStorage from "../hooks/auth/storage";
 
 const apiClient = create({
   baseURL: "http://10.0.0.47:3000/api",

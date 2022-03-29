@@ -6,14 +6,15 @@ import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
 import AuthNavigator from "./app/navigation/AuthNavigator";
-import AuthContext from "./app/auth/context";
+import AuthContext from "./app/hooks/auth/context";
 import DashboardNavigation from "./app/navigation/DashboardNavigation";
 import NewUserDashboardNavigator from "./app/navigation/NewUserDashboardNavigator";
-import authStorage from "./app/auth/storage";
+import authStorage from "./app/hooks/auth/storage";
 import { View, Button, Image } from "react-native";
 import Screen from "./app/components/Screen";
 import ImageInput from "./app/components/ImageInput";
 import RegisterScreen from "./app/screens/RegisterScreen";
+import FridgeScreen from "./app/screens/FridgeScreen";
 
 // Make Account Image Picker
 

@@ -6,8 +6,8 @@ import postHousehold from "../api/household";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import Screen from "../components/Screen";
 import AppText from "../config/AppText";
-import AuthContext from "../auth/context";
-import useAuth from "../auth/useAuth";
+import AuthContext from "../hooks/auth/context";
+import useAuth from "../hooks/auth/useAuth";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(4).label("name"),

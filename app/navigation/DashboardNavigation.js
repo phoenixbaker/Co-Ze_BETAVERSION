@@ -11,7 +11,8 @@ import MessagesScreen from "../screens/MessagesScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import NewUserDashboardNavigator from "./NewUserDashboardNavigator";
 import AppText from "../config/AppText";
-import useAuth from "../auth/useAuth";
+import useAuth from "../hooks/auth/useAuth";
+import FridgeScreen from "../screens/FridgeScreen";
 
 const Tabs = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -61,6 +62,11 @@ const DashboardNavigation = () => {
       <Stack.Screen
         name="Location"
         component={LocationScreen}
+        option={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="Fridge"
+        component={FridgeScreen}
         option={{ headerShown: true }}
       />
       <Stack.Screen
