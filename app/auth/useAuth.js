@@ -3,7 +3,6 @@ import jwtDecode from "jwt-decode";
 
 import AuthContext from "./context";
 import authStorage from "./storage";
-import { useNavigation } from "@react-navigation/native";
 
 export default useAuth = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -18,8 +17,14 @@ export default useAuth = () => {
     const user = jwtDecode(authToken);
     setUser(user);
     console.log(user);
-    console.log(JSON.stringify(user.households).length);
   };
 
-  return { user, logOut, logIn };
+  const newHouseHold = (_id, name) => {
+    user.households.push(_id);
+    user.households_name.push(name);
+    console.log(user);
+    setUser(user);
+  };
+
+  return { user, logOut, logIn, newHouseHold };
 };

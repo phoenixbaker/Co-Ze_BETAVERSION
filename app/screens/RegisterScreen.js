@@ -16,8 +16,6 @@ import useAuth from "../auth/useAuth";
 // CLEAN CODE
 // CENTER
 // MAKE ANOTHER PAGE BEFORE THIS FOR OTHER OPTIONS
-// LINK TO BACKEND (CREATE ONE ASWELL)
-// FIGURE OUT YUP.NUMBER
 // WRAP INITIAL NAVIGATION CODE INSIDE IMAGEBACKGROUND SO ANIMATION DOESNT HAPPEN
 
 const validationSchema = Yup.object().shape({
@@ -49,6 +47,7 @@ function RegisterScreen({ navigation }) {
               password: "",
               fullName: "",
               DOBirth: "",
+              image: null,
             }}
             onSubmit={registerUser}
             validationSchema={validationSchema}

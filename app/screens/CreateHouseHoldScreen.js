@@ -14,12 +14,16 @@ const validationSchema = Yup.object().shape({
 });
 
 function CreateHouseHoldScreen({ navigation }) {
-  const { user } = useAuth();
+  const { user, newHouseHold } = useAuth();
   console.log(user);
 
   const registerHouseHold = async ({ name }) => {
     const result = await postHousehold(name, user._id);
-    if (result.ok) navigation.navigate("Dashboard");
+    if (result.ok) {
+      console.log(result);
+      newHouseHold(result.data._id, result.data.name);
+      navigation.navigate("Dashboard");
+    }
   };
   return (
     <Screen>
