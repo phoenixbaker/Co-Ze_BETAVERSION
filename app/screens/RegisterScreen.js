@@ -10,7 +10,7 @@ import * as Yup from "yup";
 
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import postUser from "../api/users";
-import useAuth from "../hooks/auth/useAuth";
+import useAuth from "../auth/useAuth";
 
 // MAKE DOB HAVE // IN INPUT
 // CLEAN CODE

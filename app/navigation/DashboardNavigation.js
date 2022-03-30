@@ -11,7 +11,7 @@ import MessagesScreen from "../screens/MessagesScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import NewUserDashboardNavigator from "./NewUserDashboardNavigator";
 import AppText from "../config/AppText";
-import useAuth from "../hooks/auth/useAuth";
+import useAuth from "../auth/useAuth";
 import FridgeScreen from "../screens/FridgeScreen";
 
 const Tabs = createBottomTabNavigator();

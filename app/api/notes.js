@@ -2,10 +2,11 @@ import apiClient from "./client";
 
 const endpoint = "/my/notes";
 
-const postNote = async (household_id, note_upload) => {
+const postNote = async (household_id, note_upload, user_id) => {
   const note = await apiClient.put(endpoint, {
     id: household_id,
     note: note_upload,
+    user_id: user_id,
   });
   return note;
 };

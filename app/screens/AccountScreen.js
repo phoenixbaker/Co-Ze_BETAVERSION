@@ -5,9 +5,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ListItem from "../components/ListItem";
 import Screen from "../components/Screen";
 import Colours from "../config/Colours";
-import AuthContext from "../hooks/auth/context";
-import authStorage from "../hooks/auth/storage";
-import useAuth from "../hooks/auth/useAuth";
+import AuthContext from "../auth/context";
+import authStorage from "../auth/storage";
+import useAuth from "../auth/useAuth";
 
 function AccountScreen({ navigation }) {
   const { user, logOut } = useAuth();

@@ -12,7 +12,7 @@ import AppButton from "../components/AppButton";
 import Colours from "../config/Colours";
 import { AppFormField, AppForm, SubmitButton } from "../components/forms";
 import fetchAuth from "../api/auth";
-import useAuth from "../hooks/auth/useAuth";
+import useAuth from "../auth/useAuth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),

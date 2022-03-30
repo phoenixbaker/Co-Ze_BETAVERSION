@@ -7,22 +7,22 @@ import getLocation from "../components/Location";
 import Screen from "../components/Screen";
 import AppText from "../config/AppText";
 import global from "../config/global.json";
-import useAuth from "../hooks/auth/useAuth";
+import useAuth from "../auth/useAuth";
 import Colours from "../config/Colours";
 import ListItem from "../components/ListItem";
 import { getNotes } from "../api/notes";
 
 // TOP BAR IS TOUCHABLE AND CHANGES HOUSEHOLDS
 
+// SET NOTES IN useAuth()
+
 function DashboardScreen({ navigation }) {
-  const [notes, setNotes] = useState([]);
-  const { user } = useAuth();
+  const [Notes, setNotes] = useState([]);
+  const { user, household } = useAuth();
 
   useEffect(() => {
-    getNotes(user.households[0]).then((Response) => {
-      setNotes(Response.data.notes);
-    });
-  }, []);
+    setNotes(household.notes);
+  }, [household]);
 
   // console.log(user);
   // global.location = getLocation();
@@ -39,11 +39,20 @@ function DashboardScreen({ navigation }) {
       <Screen>
         <ScrollView>
           <Card title="Fridge" onPress={() => navigation.navigate("Fridge")}>
-            <FlatList
-              data={notes}
-              keyExtractor={(notes) => notes.toString()}
-              renderItem={({ item }) => <ListItem title={item} />}
-            />
+            {household && (
+              <FlatList
+                scrollEnabled={false}
+                data={Notes}
+                keyExtractor={(Notes) => Notes.toString()}
+                renderItem={({ item }) => (
+                  <ListItem
+                    onPress={() => navigation.navigate("Fridge")}
+                    title={item.note}
+                    subTitle={item.user_id}
+                  />
+                )}
+              />
+            )}
           </Card>
           <Card
             title="Family Members"
@@ -72,8 +81,9 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: Colours.white,
-    fontSize: 20,
+    fontSize: 25,
     top: 15,
+    fontWeight: "700",
     textTransform: "capitalize",
   },
 });

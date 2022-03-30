@@ -4,7 +4,7 @@ import * as Yup from "yup";
 
 import { AppFormField, AppForm, SubmitButton } from "../components/forms";
 import { postNote } from "../api/notes";
-import useAuth from "../hooks/auth/useAuth";
+import useAuth from "../auth/useAuth";
 import ListItem from "../components/ListItem";
 import Screen from "../components/Screen";
 
