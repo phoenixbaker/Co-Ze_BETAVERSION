@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Text, FlatList } from "react-native";
 import * as Yup from "yup";
 
@@ -13,21 +13,29 @@ const validationSchema = Yup.object().shape({
 });
 
 function FridgeScreen(props) {
-  const [note, setNote] = useState([]);
-  const { user } = useAuth();
+  const [Note, setNote] = useState([]);
+  const { user, household } = useAuth();
 
-  console.log(user);
+  useEffect(() => {
+    setNote(household.notes);
+    console.log(Note);
+    // console.log(household.notes);
+    // console.log(Note);
+  }, []);
+
   const uploadNote = async ({ note_upload }) => {
-    console.log("Here");
-    const result = await postNote(user.households[0], note_upload);
-    setNote(result.data);
+    const result = await postNote(household._id, note_upload, user._id);
+    console.log(result.data.notes);
+    setNote(result.data.notes.note);
+    console.log(Note);
+    // console.log("HERE", Note);
   };
 
   return (
     <Screen>
       <FlatList
-        data={note}
-        keyExtractor={(note) => note.toString()}
+        data={Note}
+        keyExtractor={(Note) => Note.toString()}
         renderItem={({ item }) => <ListItem title={item} />}
       />
       <AppForm

@@ -19,4 +19,13 @@ const updateLocation = async (latitude, longitude, id) => {
   return data;
 };
 
-export { updateLocation, getLocation };
+const getStreetLocation = async () => {
+  const key = "AIzaSyCVskczAH4APorEGY5sNCyrTWVJPpC3u6k";
+  const lat = -33.808578;
+  const lng = 151.10339;
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${key}`;
+  const result = await apiClient.get(url);
+  console.log(result.data);
+};
+
+export { updateLocation, getLocation, getStreetLocation };

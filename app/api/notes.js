@@ -8,6 +8,7 @@ const postNote = async (household_id, note_upload, user_id) => {
     note: note_upload,
     user_id: user_id,
   });
+  // console.log(note.data);
   return note;
 };
 

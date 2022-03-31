@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, FlatList, ScrollView } from "react-native";
+import * as Location from "expo-location";
 
-import updateLocation from "../api/location";
+import { getStreetLocation } from "../api/location";
 import Card from "../components/Card";
 import getLocation from "../components/Location";
 import Screen from "../components/Screen";
@@ -16,14 +17,26 @@ import { getNotes } from "../api/notes";
 
 // SET NOTES IN useAuth()
 
+const streetLocation = async () => {
+  const location = await getStreetLocation();
+};
+
+const fetchNotes = async (id) => {
+  const notes = await getNotes(id);
+  return notes.data;
+  // console.log(notes.data);
+};
+
 function DashboardScreen({ navigation }) {
-  const [Notes, setNotes] = useState([]);
+  const [Notes, setNotes] = useState();
   const { user, household } = useAuth();
 
   useEffect(() => {
-    setNotes(household.notes);
-  }, [household]);
+    // streetLocation();
+    fetchNotes(household._id).then((Response) => setNotes(Response.notes));
+  }, []);
 
+  console.log(Notes.note[0]);
   // console.log(user);
   // global.location = getLocation();
 
@@ -39,20 +52,18 @@ function DashboardScreen({ navigation }) {
       <Screen>
         <ScrollView>
           <Card title="Fridge" onPress={() => navigation.navigate("Fridge")}>
-            {household && (
-              <FlatList
-                scrollEnabled={false}
-                data={Notes}
-                keyExtractor={(Notes) => Notes.toString()}
-                renderItem={({ item }) => (
-                  <ListItem
-                    onPress={() => navigation.navigate("Fridge")}
-                    title={item.note}
-                    subTitle={item.user_id}
-                  />
-                )}
-              />
-            )}
+            <FlatList
+              scrollEnabled={false}
+              data={Notes}
+              keyExtractor={(item) => item.user_id}
+              renderItem={({ item }) => (
+                <ListItem
+                  onPress={() => navigation.navigate("Fridge")}
+                  title={item.note}
+                  subTitle={item.user_id}
+                />
+              )}
+            />
           </Card>
           <Card
             title="Family Members"
