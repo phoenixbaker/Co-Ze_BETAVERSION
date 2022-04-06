@@ -24,7 +24,7 @@ function LoginScreen({ navigation }) {
 
   const validateLogin = async ({ email, password }) => {
     const result = await fetchAuth(email, password);
-    if (result.ok) logIn(result.data);
+    if (result.ok) await logIn(result.data);
   };
 
   return (

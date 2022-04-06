@@ -39,11 +39,11 @@ function Dashboard() {
         }}
       />
       <Tabs.Screen
-        name="Account"
+        name="Settings"
         component={AccountScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
+            <MaterialCommunityIcons name="help" color={color} size={size} />
           ),
         }}
       />

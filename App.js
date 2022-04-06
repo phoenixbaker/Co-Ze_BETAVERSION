@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
+import useAuth from "./app/auth/useAuth";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import AuthContext from "./app/auth/context";
 import DashboardNavigation from "./app/navigation/DashboardNavigation";
@@ -32,8 +33,11 @@ import { getHousehold } from "./app/api/household";
 export default function App(props) {
   const [user, setUser] = useState();
   const [household, setHousehold] = useState();
+  const [img, setImg] = useState();
 
   const [isReady, setIsReady] = useState(false);
+
+  // useEffect(() => setUser(null), []);
 
   const restoreUser = async () => {
     const user = await authStorage.getUser();
@@ -62,7 +66,9 @@ export default function App(props) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, household, setHousehold }}>
+    <AuthContext.Provider
+      value={{ user, setUser, household, setHousehold, img, setImg }}
+    >
       <NavigationContainer>
         {user ? newUser() : <AuthNavigator />}
       </NavigationContainer>

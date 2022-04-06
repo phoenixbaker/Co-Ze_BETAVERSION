@@ -5,20 +5,23 @@ import { getHousehold } from "../api/household";
 import AuthContext from "./context";
 import authStorage from "./storage";
 import { getLocation } from "../api/location";
+import { getProfilePicture } from "../api/users";
 
 export default useAuth = () => {
-  const { user, setUser, household, setHousehold } = useContext(AuthContext);
+  const { user, setUser, household, setHousehold, img, setImg } =
+    useContext(AuthContext);
 
   const logOut = () => {
     setUser(null);
     authStorage.removeToken();
   };
 
-  const logIn = (authToken) => {
+  const logIn = async (authToken) => {
     authStorage.setToken(authToken);
     const user = jwtDecode(authToken);
     setUser(user);
-    console.log(user);
+    const result = await getProfilePicture(user.img_id);
+    setImg(result.data);
   };
 
   const getHouseholdInfo = async () => {
@@ -51,5 +54,7 @@ export default useAuth = () => {
     getHouseholdInfo,
     setHousehold,
     household,
+    img,
+    setImg,
   };
 };

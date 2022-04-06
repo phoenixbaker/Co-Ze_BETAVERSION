@@ -2,6 +2,8 @@ import apiClient from "./client";
 
 const endpoint = "/users";
 
+const endpoint_2 = "/users/download";
+
 const postUser = async (email, password, DOBirth, name) => {
   const data = await apiClient.post(endpoint, {
     email: email,
@@ -9,8 +11,12 @@ const postUser = async (email, password, DOBirth, name) => {
     DOBirth: DOBirth,
     name: name,
   });
-  console.log(data);
   return data;
 };
 
-export default postUser;
+const getProfilePicture = async (_id) => {
+  const data = await apiClient.get(endpoint_2 + "/" + _id);
+  return data;
+};
+
+export { postUser, getProfilePicture };

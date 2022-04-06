@@ -16,6 +16,7 @@ const getHousehold = async (id) => {
   const data = await apiClient.post(endPoint_2, {
     id: id,
   });
+  console.log(data);
   return data;
 };
 

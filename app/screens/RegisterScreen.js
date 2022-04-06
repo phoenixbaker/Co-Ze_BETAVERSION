@@ -29,6 +29,7 @@ function RegisterScreen({ navigation }) {
   const { logIn } = useAuth();
 
   const registerUser = async ({ email, password, DOBirth, fullName }) => {
+    console.log(email, password);
     const result = await postUser(email, password, DOBirth, fullName);
     if (result != undefined) logIn(result.data);
   };
@@ -47,7 +48,6 @@ function RegisterScreen({ navigation }) {
               password: "",
               fullName: "",
               DOBirth: "",
-              image: null,
             }}
             onSubmit={registerUser}
             validationSchema={validationSchema}
