@@ -9,28 +9,12 @@ function ListItem({
   image,
   imageStyle,
   onPress,
-  DisableOnPress = false,
   subTitle,
   subTitleStyle,
   containerstyles,
   title,
   titleStyle,
 }) {
-  if (DisableOnPress) {
-    return (
-      <TouchableHighlight underlayColor={Colours.lightgray}>
-        <View style={[styles.container, containerstyles]}>
-          {IconComponent}
-          {image && <Image source={image} style={[styles.image, imageStyle]} />}
-          <View style={styles.detailContainer}>
-            <AppText style={titleStyle}>{title}</AppText>
-            {subTitle && <AppText style={subTitleStyle}>{subTitle}</AppText>}
-          </View>
-        </View>
-      </TouchableHighlight>
-    );
-  }
-
   return (
     <TouchableHighlight underlayColor={Colours.lightgray} onPress={onPress}>
       <View style={[styles.container, containerstyles]}>

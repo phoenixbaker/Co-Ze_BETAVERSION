@@ -23,9 +23,9 @@ import { getProfilePicture } from "../api/users";
 // SET NOTES IN useAuth()
 
 function DashboardScreen({ navigation }) {
-  const { user, img } = useAuth();
+  const { user, img, household } = useAuth();
 
-  // console.log(img);
+  console.log(household);
 
   return (
     <>

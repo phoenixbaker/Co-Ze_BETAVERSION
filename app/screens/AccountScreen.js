@@ -13,59 +13,12 @@ import ImageInput from "../components/ImageInput";
 import DropDown from "../components/DropDown";
 
 function AccountScreen({ navigation }) {
-  const { user, logOut, img, household } = useAuth();
-
-  const displayImage = (img) => {
-    // console.log(img);
-    return "data:image/png;base64," + img;
-  };
+  const { household } = useAuth();
 
   return (
     <Screen>
       <View style={styles.container}>
-        <DropDown
-          DropDownHeader={
-            <ListItem
-              DisableOnPress
-              title={user.name}
-              titleStyle={{
-                fontWeight: "700",
-                color: Colours.white,
-              }}
-              subTitle={user.email}
-              subTitleStyle={{
-                color: Colours.lightgray,
-              }}
-              image={{ uri: displayImage(img) }}
-              imageStyle={{
-                borderColor: Colours.lightgray,
-                borderWidth: 1,
-              }}
-              containerstyles={{ backgroundColor: Colours.primary }}
-            />
-          }
-        >
-          <ListItem
-            title="Profile Picture"
-            titleStyle={{
-              fontWeight: "600",
-            }}
-            IconComponent={
-              <MaterialCommunityIcons name="camera" size={40} color="black" />
-            }
-          />
-          <ListItem
-            title="LOGOUT"
-            titleStyle={{
-              fontWeight: "600",
-            }}
-            IconComponent={
-              <MaterialCommunityIcons name="logout" size={40} color="black" />
-            }
-            onPress={() => logOut()}
-            // Create Nav for each screen
-          />
-        </DropDown>
+        <DropDown />
 
         <ListItem
           title="Household"

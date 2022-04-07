@@ -1,28 +1,31 @@
 import React, { useEffect } from "react";
-import { FlatList } from "react-native";
+import { StyleSheet } from "react-native";
 
 import ListItem from "./ListItem";
 import useAuth from "../auth/useAuth";
 import Card from "./Card";
+import NoteList from "./NoteList";
 
 function FridgeCard({ onPress }) {
   const { household } = useAuth();
 
   return (
     <Card title="Fridge" onPress={onPress}>
-      <FlatList
-        scrollEnabled={false}
-        data={household.notes}
-        renderItem={({ item }) => (
-          <ListItem
-            onPress={onPress}
-            title={item.note}
-            subTitle={item.user_id}
-          />
-        )}
+      <NoteList
+        listStyle={styles.listContainer}
+        imageStyle={styles.image}
+        note={household.notes.note}
+        icon={household.notes.user_img_id}
       />
     </Card>
   );
 }
+
+const styles = StyleSheet.create({
+  image: {
+    height: 50,
+    width: 50,
+  },
+});
 
 export default FridgeCard;

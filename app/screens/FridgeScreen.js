@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Text, FlatList, View } from "react-native";
+import { Button, Text, FlatList, View, StyleSheet } from "react-native";
 import * as Yup from "yup";
 
 import { AppFormField, AppForm, SubmitButton } from "../components/forms";
@@ -8,6 +8,7 @@ import useAuth from "../auth/useAuth";
 import ListItem from "../components/ListItem";
 import Screen from "../components/Screen";
 import ListItemDeleteAction from "../components/ListItemDeleteAction";
+import NoteList from "../components/NoteList";
 
 const validationSchema = Yup.object().shape({
   note: Yup.string(),
@@ -18,17 +19,18 @@ function FridgeScreen(props) {
   const { user, household } = useAuth();
 
   useEffect(() => {
-    setNote(household.notes.note);
-    console.log(Note);
-    // console.log(household.notes);
-    // console.log(Note);
+    // const ans = [];
+    // for (let key in household.notes) {
+    //   let val = household.notes[key];
+    //   ans.push([key, val]);
+    // }
+    // console.log(ans);
+    setNote(household.notes);
   }, []);
 
   const uploadNote = async ({ note_upload }) => {
-    const result = await postNote(household._id, note_upload, user._id);
-    console.log(result.data.notes);
-    setNote(result.data.notes.note);
-    console.log(Note);
+    const result = await postNote(household._id, note_upload, user.img_id);
+    setNote(result.data.notes);
     // console.log("HERE", Note);
   };
 
@@ -40,17 +42,9 @@ function FridgeScreen(props) {
 
   return (
     <Screen>
-      <FlatList
-        data={household.notes}
-        keyExtractor={(Note) => Note.toString()}
-        renderItem={({ item }) => (
-          <ListItem
-            renderRightActions={() => (
-              <ListItemDeleteAction onPress={handleDelete} />
-            )}
-            title={item.note}
-          />
-        )}
+      <NoteList
+        note={household.notes.note}
+        icon={household.notes.user_img_id}
       />
       <AppForm
         initialValues={{ note_upload: "" }}
@@ -63,5 +57,7 @@ function FridgeScreen(props) {
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({});
 
 export default FridgeScreen;
