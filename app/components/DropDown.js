@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Transition, Transitioning } from "react-native-reanimated";
@@ -6,6 +6,7 @@ import { Transition, Transitioning } from "react-native-reanimated";
 import Colours from "../config/Colours";
 import useAuth from "../auth/useAuth";
 import ListItem from "./ListItem";
+import { getProfilePicture } from "../api/users";
 
 const transition = (
   <Transition.Together>
@@ -13,10 +14,19 @@ const transition = (
   </Transition.Together>
 );
 
-function DropDown() {
+function DropDown({ navigate_Profile_Picture }) {
   const [open, setOpen] = useState(false);
-  const { user, logOut, img } = useAuth();
+  const { user, logOut, img, setImg } = useAuth();
   const ref = useRef();
+
+  const loadImg = async () => {
+    const BASE64_img = await getProfilePicture();
+    setImg(BASE64_img);
+  };
+  useEffect(() => {
+    setOpen(false);
+    loadImg();
+  }, []);
 
   const displayImage = (img) => {
     return "data:image/png;base64," + img;
@@ -57,6 +67,7 @@ function DropDown() {
             IconComponent={
               <MaterialCommunityIcons name="camera" size={40} color="black" />
             }
+            onPress={navigate_Profile_Picture}
           />
           <ListItem
             title="LOGOUT"

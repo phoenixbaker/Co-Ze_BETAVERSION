@@ -18,7 +18,11 @@ function AccountScreen({ navigation }) {
   return (
     <Screen>
       <View style={styles.container}>
-        <DropDown />
+        <DropDown
+          navigate_Profile_Picture={() =>
+            navigation.navigate("Profile_Picture")
+          }
+        />
 
         <ListItem
           title="Household"

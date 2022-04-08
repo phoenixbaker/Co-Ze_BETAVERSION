@@ -25,8 +25,6 @@ import { getProfilePicture } from "../api/users";
 function DashboardScreen({ navigation }) {
   const { user, img, household } = useAuth();
 
-  console.log(household);
-
   return (
     <>
       <View style={styles.header}>

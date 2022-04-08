@@ -7,7 +7,11 @@ import Card from "./Card";
 import NoteList from "./NoteList";
 
 function FridgeCard({ onPress }) {
-  const { household } = useAuth();
+  const { household, getHouseholdInfo } = useAuth();
+
+  useEffect(() => {
+    getHouseholdInfo();
+  }, []);
 
   return (
     <Card title="Fridge" onPress={onPress}>

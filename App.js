@@ -24,6 +24,11 @@ import { getHousehold } from "./app/api/household";
 
 // Better Message Screen
 
+// MAKE img a function hook that saves and retrieves household profile images
+// Add middleware or smnthn to check if image has changed so server doesn't overload on req
+
+// Change API calls to .then((Response) => ***)
+
 // Add settings to account screen
 // Subscription
 // Make Account Image Picker

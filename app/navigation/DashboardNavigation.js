@@ -1,5 +1,4 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -10,54 +9,24 @@ import AccountScreen from "../screens/AccountScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import NewUserDashboardNavigator from "./NewUserDashboardNavigator";
-import AppText from "../config/AppText";
-import useAuth from "../auth/useAuth";
 import FridgeScreen from "../screens/FridgeScreen";
+import BottomTabNavigator from "./BottomTabNavigator";
+import ProfilePictureScreen from "../screens/ProfilePictureScreen";
 
-const Tabs = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
-function Dashboard() {
-  return (
-    <Tabs.Navigator screenOptions={{ headerShown: false }}>
-      <Tabs.Screen
-        name="Dashboard"
-        component={DashboardScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Messages"
-        component={MessagesScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="message" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Settings"
-        component={AccountScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="help" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tabs.Navigator>
-  );
-}
 
 const DashboardNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name="Bottom"
-        component={Dashboard}
+        name="BottomTabNavigator"
+        component={BottomTabNavigator}
         option={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Profile_Picture"
+        component={ProfilePictureScreen}
+        option={{ headerShown: true }}
       />
       <Stack.Screen
         name="Location"

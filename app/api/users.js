@@ -1,8 +1,8 @@
+import { Buffer } from "buffer";
+
 import apiClient from "./client";
 
 const endpoint = "/users";
-
-const endpoint_2 = "/users/download";
 
 const postUser = async (email, password, DOBirth, name) => {
   const data = await apiClient.post(endpoint, {
@@ -14,9 +14,18 @@ const postUser = async (email, password, DOBirth, name) => {
   return data;
 };
 
-const getProfilePicture = async (_id) => {
-  const data = await apiClient.get(endpoint_2 + "/" + _id);
+const getProfilePicture = async () => {
+  const data = await apiClient.get("/img/download").then((res) => {
+    return new Buffer.from(res.data).toString("base64");
+  });
+  console.log("Got Profile Picture");
   return data;
 };
 
-export { postUser, getProfilePicture };
+const uploadProfilePicture = async (formData) => {
+  await apiClient.post("/img/upload", formData).then((Response) => {
+    console.log(Response);
+  });
+};
+
+export { postUser, getProfilePicture, uploadProfilePicture };

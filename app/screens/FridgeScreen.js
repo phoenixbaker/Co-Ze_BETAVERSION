@@ -19,12 +19,6 @@ function FridgeScreen(props) {
   const { user, household } = useAuth();
 
   useEffect(() => {
-    // const ans = [];
-    // for (let key in household.notes) {
-    //   let val = household.notes[key];
-    //   ans.push([key, val]);
-    // }
-    // console.log(ans);
     setNote(household.notes);
   }, []);
 

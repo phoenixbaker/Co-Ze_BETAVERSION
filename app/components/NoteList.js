@@ -20,8 +20,8 @@ function NoteList({
     const comb = [[]];
     const imgArr = [];
     icon.forEach(async (name, i) => {
-      await getProfilePicture(icon[i]).then((Response) => {
-        const data = Response.data;
+      await getProfilePicture().then((Response) => {
+        const data = Response;
         imgArr.push("data:image/png;base64," + data);
         if (imgArr.length === note.length) {
           for (let i in note) {
