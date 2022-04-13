@@ -3,9 +3,9 @@ import * as Yup from "yup";
 import MapView, { Marker } from "react-native-maps";
 import { StyleSheet } from "react-native";
 
-import { getStreetlocation } from "../api/location";
-import { AppFormField, AppForm, SubmitButton } from "../components/forms";
-import useAuth from "../auth/useAuth";
+import { getStreetlocation } from "../../api/location";
+import { AppFormField, AppForm, SubmitButton } from "../forms";
+import useAuth from "../../auth/useAuth";
 import Card from "./Card";
 
 const validationSchema = Yup.object().shape({

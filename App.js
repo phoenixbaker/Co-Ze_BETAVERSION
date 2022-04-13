@@ -17,6 +17,7 @@ import ImageInput from "./app/components/ImageInput";
 import RegisterScreen from "./app/screens/RegisterScreen";
 import FridgeScreen from "./app/screens/FridgeScreen";
 import { getHousehold } from "./app/api/household";
+import { getProfilePicture } from "./app/api/users";
 
 // Expenses dynamic bar
 
@@ -51,6 +52,7 @@ export default function App(props) {
       const result = await getHousehold(user.households[0]);
       if (result.ok) {
         setHousehold(result.data);
+        // setImg(await getProfilePicture());`
       }
     }
   };

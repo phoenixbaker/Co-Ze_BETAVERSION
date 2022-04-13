@@ -20,9 +20,11 @@ export default useAuth = () => {
     authStorage.setToken(authToken);
     const user = jwtDecode(authToken);
     setUser(user);
-    await getProfilePicture().then((Response) => {
-      setImg(Response);
-    });
+    if (img === undefined) {
+      await getProfilePicture().then((Response) => {
+        setImg(Response);
+      });
+    }
   };
 
   const getHouseholdInfo = async () => {

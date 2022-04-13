@@ -4,6 +4,8 @@ import { View, Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import LocationScreen from "../screens/LocationScreen";
+import EventsScreen from "../screens/EventsScreen";
+import ExpensesScreen from "../screens/ExpensesScreen";
 import DashboardScreen from "../screens/DashboardScreen";
 import AccountScreen from "../screens/AccountScreen";
 import MessagesScreen from "../screens/MessagesScreen";
@@ -21,6 +23,16 @@ const DashboardNavigation = () => {
       <Stack.Screen
         name="BottomTabNavigator"
         component={BottomTabNavigator}
+        option={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Expenses"
+        component={ExpensesScreen}
+        option={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Events"
+        component={EventsScreen}
         option={{ headerShown: false }}
       />
       <Stack.Screen

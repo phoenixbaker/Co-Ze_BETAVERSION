@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 
-import ListItem from "./ListItem";
-import useAuth from "../auth/useAuth";
+import ListItem from "../ListItem";
+import useAuth from "../../auth/useAuth";
 import Card from "./Card";
-import NoteList from "./NoteList";
+import NoteList from "../NoteList";
 
 function FridgeCard({ onPress }) {
   const { household, getHouseholdInfo } = useAuth();
