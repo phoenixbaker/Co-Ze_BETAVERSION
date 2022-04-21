@@ -22,7 +22,7 @@ function FamilyMembersCard({ onPress }) {
 
   return (
     <Card title="Family Members">
-      {household.longitude === undefined ? (
+      {/* {household.longitude === undefined ? (
         <AppForm
           initialValues={{ homeAddrss: null }}
           onSubmit={streetLocation}
@@ -52,7 +52,7 @@ function FamilyMembersCard({ onPress }) {
             }}
           />
         </MapView>
-      )}
+      )} */}
     </Card>
   );
 }

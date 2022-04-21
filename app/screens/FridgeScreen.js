@@ -30,10 +30,6 @@ function FridgeScreen(props) {
 
   // Fix Structure of Data
 
-  const handleDelete = (message) => {
-    setNote(Note.filter((m) => m.note !== message.note));
-  };
-
   return (
     <Screen>
       <NoteList

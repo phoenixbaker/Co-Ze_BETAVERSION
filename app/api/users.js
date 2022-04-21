@@ -4,6 +4,12 @@ import apiClient from "./client";
 
 const endpoint = "/users";
 
+const getUserDetails = async () => {
+  const data = await apiClient.post(endpoint + "/me");
+  console.log(data);
+  return data;
+};
+
 const postUser = async (email, password, DOBirth, name) => {
   const data = await apiClient.post(endpoint, {
     email: email,
@@ -28,4 +34,4 @@ const uploadProfilePicture = async (formData) => {
   });
 };
 
-export { postUser, getProfilePicture, uploadProfilePicture };
+export { postUser, getProfilePicture, uploadProfilePicture, getUserDetails };

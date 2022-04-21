@@ -15,12 +15,12 @@ function FridgeCard({ onPress }) {
 
   return (
     <Card title="Fridge" onPress={onPress}>
-      <NoteList
+      {/* <NoteList
         listStyle={styles.listContainer}
         imageStyle={styles.image}
         note={household.notes.note}
         icon={household.notes.user_img_id}
-      />
+      /> */}
     </Card>
   );
 }

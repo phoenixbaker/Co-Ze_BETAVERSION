@@ -31,7 +31,7 @@ function DashboardScreen({ navigation }) {
     <>
       <View style={styles.header}>
         <AppText style={styles.headerText} autoCapitalize>
-          {user.households_name[0]}
+          {/* {user.households_name[0]} */}
         </AppText>
       </View>
       <Screen>

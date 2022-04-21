@@ -13,6 +13,7 @@ import Colours from "../config/Colours";
 import { AppFormField, AppForm, SubmitButton } from "../components/forms";
 import fetchAuth from "../api/auth";
 import useAuth from "../auth/useAuth";
+import { getHousehold } from "../api/household";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -20,11 +21,14 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen({ navigation }) {
-  const { logIn } = useAuth();
+  const { logIn, household, setHousehold } = useAuth();
 
   const validateLogin = async ({ email, password }) => {
     const result = await fetchAuth(email, password);
-    if (result.ok) await logIn(result.data);
+    if (result.ok) {
+      await logIn(result.data);
+      navigation.navigate("Dashboard");
+    }
   };
 
   return (

@@ -17,7 +17,7 @@ import ImageInput from "./app/components/ImageInput";
 import RegisterScreen from "./app/screens/RegisterScreen";
 import FridgeScreen from "./app/screens/FridgeScreen";
 import { getHousehold } from "./app/api/household";
-import { getProfilePicture } from "./app/api/users";
+import { getProfilePicture, getUserDetails } from "./app/api/users";
 
 // Expenses dynamic bar
 
@@ -37,23 +37,18 @@ import { getProfilePicture } from "./app/api/users";
 // Drop down menu for households, ability to add new users and change to different household
 
 export default function App(props) {
-  const [user, setUser] = useState();
-  const [household, setHousehold] = useState();
+  const [user, setUser] = useState({});
+  const [household, setHousehold] = useState({});
   const [img, setImg] = useState();
 
   const [isReady, setIsReady] = useState(false);
 
-  // useEffect(() => setUser(null), []);
-
   const restoreUser = async () => {
     const user = await authStorage.getUser();
+    setUser(undefined);
     if (user) {
       setUser(user);
-      const result = await getHousehold(user.households[0]);
-      if (result.ok) {
-        setHousehold(result.data);
-        // setImg(await getProfilePicture());`
-      }
+      const result = await getUserDetails();
     }
   };
 
@@ -77,7 +72,8 @@ export default function App(props) {
       value={{ user, setUser, household, setHousehold, img, setImg }}
     >
       <NavigationContainer>
-        {user ? newUser() : <AuthNavigator />}
+        <AuthNavigator />
+        {/* {user !== undefined ? newUser() : <AuthNavigator />} */}
       </NavigationContainer>
     </AuthContext.Provider>
   );

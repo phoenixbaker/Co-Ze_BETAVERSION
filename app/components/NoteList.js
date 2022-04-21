@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList } from "react-native";
+import { View, ActivityIndicator } from "react-native";
+
+import ListItemDeleteAction from "../components/ListItemDeleteAction";
 import { getProfilePicture } from "../api/users";
+import Colours from "../config/Colours";
 import ListItem from "./ListItem";
 
 function NoteList({
   note,
   icon,
+  renderRightActions,
   containerListStyle,
   noteListStyle,
   imageStyle,
@@ -15,6 +19,10 @@ function NoteList({
   useEffect(() => {
     combination(note, icon);
   }, []);
+
+  const handleDelete = (message) => {
+    setNote(Note.filter((m) => m.note !== message.note));
+  };
 
   const combination = async (note, icon) => {
     const comb = [[]];
@@ -38,11 +46,14 @@ function NoteList({
 
   return (
     <View style={containerListStyle}>
-      {ready && (
+      {ready ? (
         <>
           {combArr.map(function (val, i) {
             return (
               <ListItem
+                renderRightActions={() => (
+                  <ListItemDeleteAction onPress={handleDelete} />
+                )}
                 title={combArr[i][0]}
                 imageStyle={imageStyle}
                 image={{ uri: combArr[i][1] }}
@@ -51,6 +62,8 @@ function NoteList({
             );
           })}
         </>
+      ) : (
+        <ActivityIndicator color={Colours.primary} size="large" />
       )}
     </View>
   );

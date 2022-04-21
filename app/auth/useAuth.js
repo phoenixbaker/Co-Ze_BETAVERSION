@@ -12,7 +12,7 @@ export default useAuth = () => {
     useContext(AuthContext);
 
   const logOut = () => {
-    setUser(null);
+    setUser({});
     authStorage.removeToken();
   };
 
@@ -20,11 +20,10 @@ export default useAuth = () => {
     authStorage.setToken(authToken);
     const user = jwtDecode(authToken);
     setUser(user);
-    if (img === undefined) {
-      await getProfilePicture().then((Response) => {
-        setImg(Response);
-      });
-    }
+    const result = await getHousehold(user.households[0]);
+    console.log(result.ok);
+    if (result.ok) await setHousehold(result.data);
+    console.log(household);
   };
 
   const getHouseholdInfo = async () => {
