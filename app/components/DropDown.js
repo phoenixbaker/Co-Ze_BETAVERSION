@@ -19,13 +19,8 @@ function DropDown({ navigate_Profile_Picture }) {
   const { user, logOut, img, setImg } = useAuth();
   const ref = useRef();
 
-  const loadImg = async () => {
-    const BASE64_img = await getProfilePicture();
-    setImg(BASE64_img);
-  };
   useEffect(() => {
     setOpen(false);
-    loadImg();
   }, []);
 
   const displayImage = (img) => {

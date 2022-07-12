@@ -1,43 +1,28 @@
 import * as SecureStore from "expo-secure-store";
 import jwtDecode from "jwt-decode";
 
-// Re-watch mosh video
-
 const key = "authToken";
-const user = "userDetails";
-
-const setUser = async (value) => {
-  try {
-    await SecureStore.setItemAsync(user, value);
-  } catch (error) {
-    console.log("Error setting user data ", error);
-  }
-};
-
-const getUser = async () => {
-  return await SecureStore.getItemAsync(user);
-};
 
 const setToken = async (authToken) => {
+  console.log(authToken);
   try {
     await SecureStore.setItemAsync(key, authToken);
-  } catch (error) {
-    console.log("Error storing the auth token", error);
+  } catch (e) {
+    console.log("Error storing the AuthToken ", e);
   }
 };
 
 const getToken = async () => {
   try {
     return await SecureStore.getItemAsync(key);
-  } catch (error) {
-    console.log("Error getting the auth token", error);
+  } catch (e) {
+    console.log("Error retrieving AuthToken", e);
   }
 };
 
 const getUserToken = async () => {
   const token = await getToken();
-  // return null;
-  return token ? jwtDecode(token) : null;
+  return token ? jwtDecode(token) : undefined;
 };
 
 const removeToken = async () => {
@@ -49,10 +34,8 @@ const removeToken = async () => {
 };
 
 export default {
-  getUser: getUserToken,
-  removeToken,
   setToken,
   getToken,
-  setUser,
-  getUser,
+  getUserToken,
+  removeToken,
 };

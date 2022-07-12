@@ -26,8 +26,9 @@ function LoginScreen({ navigation }) {
   const validateLogin = async ({ email, password }) => {
     const result = await fetchAuth(email, password);
     if (result.ok) {
-      await logIn(result.data);
-      navigation.navigate("Dashboard");
+      await logIn(result);
+      // console.log("Does it get here");
+      // navigation.navigate("Dashboard");
     }
   };
 
@@ -91,6 +92,9 @@ function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  loginStyle: {
+    color: "black",
+  },
   imageBackground: {
     flex: 1,
     justifyContent: "center",

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 import ListItem from "../ListItem";
 import useAuth from "../../auth/useAuth";
@@ -15,6 +15,9 @@ function FridgeCard({ onPress }) {
 
   return (
     <Card title="Fridge" onPress={onPress}>
+      <Text>Have no notes on the fride? Why not add one!</Text>
+      <Text></Text>
+      <Text>Please add styles to this Card Text</Text>
       {/* <NoteList
         listStyle={styles.listContainer}
         imageStyle={styles.image}

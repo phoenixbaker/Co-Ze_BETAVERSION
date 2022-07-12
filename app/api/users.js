@@ -2,6 +2,8 @@ import { Buffer } from "buffer";
 
 import apiClient from "./client";
 
+// Redo (Maybe profile pictures are own section -- sectionilse more)
+
 const endpoint = "/users";
 
 const getUserDetails = async () => {
@@ -10,11 +12,20 @@ const getUserDetails = async () => {
   return data;
 };
 
+const validateEmail = async (token, email) => {
+  const res = await apiClient.post(endpoint + "/confirmation", {
+    token: token,
+    email: email,
+  });
+  console.log(res.data);
+  return res;
+};
+
 const postUser = async (email, password, DOBirth, name) => {
+  console.log("here");
   const data = await apiClient.post(endpoint, {
     email: email,
     password: password,
-    DOBirth: DOBirth,
     name: name,
   });
   return data;
@@ -34,4 +45,10 @@ const uploadProfilePicture = async (formData) => {
   });
 };
 
-export { postUser, getProfilePicture, uploadProfilePicture, getUserDetails };
+export {
+  postUser,
+  getProfilePicture,
+  uploadProfilePicture,
+  getUserDetails,
+  validateEmail,
+};

@@ -1,6 +1,8 @@
 import apiClient from "./client";
 import * as Location from "expo-location";
 
+// Redo
+
 const endpoint = "/location";
 
 const endPoint_2 = "/location/household";
@@ -18,7 +20,6 @@ const updateLocation = async (latitude, longitude, id) => {
     longitude: longitude,
     latitude: latitude,
   });
-  // console.log(data);
   return data;
 };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, FlatList, ScrollView } from "react-native";
+import { View, StyleSheet, FlatList, ScrollView, Text } from "react-native";
 import * as Location from "expo-location";
 import * as Yup from "yup";
 
@@ -25,16 +25,20 @@ import ExpensesCard from "../components/cards/ExpensesCard";
 // SET NOTES IN useAuth()
 
 function DashboardScreen({ navigation }) {
-  const { user, img, household } = useAuth();
+  const { user, img, household, getHouseholdInfo } = useAuth();
 
   return (
     <>
       <View style={styles.header}>
         <AppText style={styles.headerText} autoCapitalize>
-          {/* {user.households_name[0]} */}
+          {user.households_name[0]}
         </AppText>
       </View>
       <Screen>
+        <Text>
+          {" "}
+          Have family stories | horizontal swipe | profile picture as icon{" "}
+        </Text>
         <ScrollView style={styles.container}>
           <FridgeCard onPress={() => navigation.navigate("Fridge")} />
           <FamilyMembersCard onPress={() => navigation.navigate("Location")} />

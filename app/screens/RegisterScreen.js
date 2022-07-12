@@ -9,7 +9,7 @@ import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
-import postUser from "../api/users";
+import { postUser, validateEmail } from "../api/users";
 import useAuth from "../auth/useAuth";
 
 // MAKE DOB HAVE // IN INPUT
@@ -22,16 +22,23 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(4).label("Password"),
   fullName: Yup.string().required().label("Full Name"),
-  DOBirth: Yup.string().required().label("DOB"),
+  DOBirth: Yup.string().label("DOB"),
 });
 
 function RegisterScreen({ navigation }) {
-  const { logIn } = useAuth();
-
-  const registerUser = async ({ email, password, DOBirth, fullName }) => {
-    console.log(email, password);
+  const registerUser = async ({ email, password, fullName, DOBirth }) => {
+    // console.log(email, password, fullName, DOBirth);
     const result = await postUser(email, password, DOBirth, fullName);
-    if (result != undefined) logIn(result.data);
+    if (result.data === "User already registered") {
+      console.log("user already registered under email, do smnthn about it");
+    }
+    // console.log(result.data);
+    console.log("token is here, sending request for email verification");
+
+    await validateEmail(result.data, email);
+    console.log("Go to new screen for email verification");
+
+    // if (result != undefined) logIn(result.data);
   };
 
   return (

@@ -10,7 +10,7 @@ import AuthNavigator from "./app/navigation/AuthNavigator";
 import AuthContext from "./app/auth/context";
 import DashboardNavigation from "./app/navigation/DashboardNavigation";
 import NewUserDashboardNavigator from "./app/navigation/NewUserDashboardNavigator";
-import authStorage from "./app/auth/storage";
+import userStorage from "./app/auth/storage/user";
 import { View, Button, Image } from "react-native";
 import Screen from "./app/components/Screen";
 import ImageInput from "./app/components/ImageInput";
@@ -18,6 +18,8 @@ import RegisterScreen from "./app/screens/RegisterScreen";
 import FridgeScreen from "./app/screens/FridgeScreen";
 import { getHousehold } from "./app/api/household";
 import { getProfilePicture, getUserDetails } from "./app/api/users";
+
+// Fix user.img
 
 // Expenses dynamic bar
 
@@ -37,18 +39,25 @@ import { getProfilePicture, getUserDetails } from "./app/api/users";
 // Drop down menu for households, ability to add new users and change to different household
 
 export default function App(props) {
-  const [user, setUser] = useState({});
-  const [household, setHousehold] = useState({});
+  const [user, setUser] = useState();
+  const [household, setHousehold] = useState();
   const [img, setImg] = useState();
 
   const [isReady, setIsReady] = useState(false);
 
+  // Cant log in? reset to setUser(undefined) | originally setUser(user)
+  // wut is this, put retrieving data in setUser function
+
+  // make restoreUser sectionalized, getUser, getHousehold, getPic etc (dif if stmnts)
+
   const restoreUser = async () => {
-    const user = await authStorage.getUser();
-    setUser(undefined);
-    if (user) {
-      setUser(user);
-      const result = await getUserDetails();
+    const res = await userStorage.getUser();
+    if (res !== null) {
+      const householdData = await getHousehold(res.households[0]);
+      setHousehold(householdData.data);
+      const pic = await userStorage.getImages();
+      setImg(pic);
+      setUser(res);
     }
   };
 
@@ -63,17 +72,24 @@ export default function App(props) {
   }
 
   const newUser = () => {
+    // if (user === null) return <AuthNavigator />;
     if (user.households[0] === undefined) return <NewUserDashboardNavigator />;
     return <DashboardNavigation />;
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, household, setHousehold, img, setImg }}
+      value={{
+        user,
+        setUser,
+        household,
+        setHousehold,
+        img,
+        setImg,
+      }}
     >
       <NavigationContainer>
-        <AuthNavigator />
-        {/* {user !== undefined ? newUser() : <AuthNavigator />} */}
+        {user !== null ? newUser() : <AuthNavigator />}
       </NavigationContainer>
     </AuthContext.Provider>
   );
