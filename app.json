@@ -13,8 +13,17 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
+    "facebookScheme": "fb321336776685083",
     "assetBundlePatterns": [
       "**/*"
+    ],
+        "plugins": [
+      [
+        "expo-facebook",
+        {
+          "userTrackingPermission": false
+        }
+      ]
     ],
     "ios": {
       "supportsTablet": true,

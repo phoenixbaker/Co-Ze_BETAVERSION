@@ -1,16 +1,16 @@
 import React from "react";
 import {
   ImageBackground,
-  TouchableWithoutFeedback,
   Keyboard,
   View,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
-import * as Facebook from "expo-facebook";
 
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import { postUser, validateEmail } from "../api/users";
+import AppButton from "../components/AppButton";
 
 // MAKE DOB HAVE // IN INPUT
 // CLEAN CODE
@@ -18,37 +18,12 @@ import { postUser, validateEmail } from "../api/users";
 // MAKE ANOTHER PAGE BEFORE THIS FOR OTHER OPTIONS
 // WRAP INITIAL NAVIGATION CODE INSIDE IMAGEBACKGROUND SO ANIMATION DOESNT HAPPEN
 
-const faceBookID = "321336776685083";
-
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(4).label("Password"),
   fullName: Yup.string().required().label("Full Name"),
   DOBirth: Yup.string().label("DOB"),
 });
-
-const faceBookLogIn = async () => {
-  try {
-    await Facebook.initializeAsync({
-      appId: faceBookID,
-    });
-    const { type, token, expirationDate, permissions, declinedPermissions } =
-      await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile"],
-      });
-    if (type === "success") {
-      // Get the user's name using Facebook's Graph API
-      const response = await fetch(
-        `https://graph.facebook.com/me?access_token=${token}`
-      );
-      Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
-    } else {
-      // type === 'cancel'
-    }
-  } catch ({ message }) {
-    alert(`Facebook Login Error: ${message}`);
-  }
-};
 
 function RegisterScreen({ navigation }) {
   const registerUser = async ({ email, password, fullName, DOBirth }) => {

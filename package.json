@@ -52,7 +52,10 @@
     "supercluster": "^7.1.5",
     "victory-native": "^36.6.1",
     "yup": "^0.32.11",
-    "expo-facebook": "~12.1.0"
+    "expo-facebook": "~12.1.0",
+    "expo-web-browser": "~10.1.0",
+    "expo-auth-session": "~3.5.0",
+    "expo-random": "~12.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
