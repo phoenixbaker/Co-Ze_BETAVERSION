@@ -7,16 +7,18 @@ import {
 } from "react-native";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
+import * as Facebook from "expo-facebook";
 
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import { postUser, validateEmail } from "../api/users";
-import useAuth from "../auth/useAuth";
 
 // MAKE DOB HAVE // IN INPUT
 // CLEAN CODE
 // CENTER
 // MAKE ANOTHER PAGE BEFORE THIS FOR OTHER OPTIONS
 // WRAP INITIAL NAVIGATION CODE INSIDE IMAGEBACKGROUND SO ANIMATION DOESNT HAPPEN
+
+const faceBookID = "321336776685083";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -25,20 +27,39 @@ const validationSchema = Yup.object().shape({
   DOBirth: Yup.string().label("DOB"),
 });
 
+const faceBookLogIn = async () => {
+  try {
+    await Facebook.initializeAsync({
+      appId: faceBookID,
+    });
+    const { type, token, expirationDate, permissions, declinedPermissions } =
+      await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile"],
+      });
+    if (type === "success") {
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}`
+      );
+      Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+    } else {
+      // type === 'cancel'
+    }
+  } catch ({ message }) {
+    alert(`Facebook Login Error: ${message}`);
+  }
+};
+
 function RegisterScreen({ navigation }) {
   const registerUser = async ({ email, password, fullName, DOBirth }) => {
-    // console.log(email, password, fullName, DOBirth);
-    const result = await postUser(email, password, DOBirth, fullName);
-    if (result.data === "User already registered") {
-      console.log("user already registered under email, do smnthn about it");
+    let res = await postUser(email, password, DOBirth, fullName);
+    // console.log(res.data);
+    if (res.ok) {
+      const data = res.data;
+      return navigation.navigate("EmailVerificationScreen", {
+        data,
+      });
     }
-    // console.log(result.data);
-    console.log("token is here, sending request for email verification");
-
-    await validateEmail(result.data, email);
-    console.log("Go to new screen for email verification");
-
-    // if (result != undefined) logIn(result.data);
   };
 
   return (

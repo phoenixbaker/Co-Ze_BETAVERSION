@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Text, FlatList, View, StyleSheet } from "react-native";
 import * as Yup from "yup";
 
@@ -9,41 +9,55 @@ import ListItem from "../components/ListItem";
 import Screen from "../components/Screen";
 import ListItemDeleteAction from "../components/ListItemDeleteAction";
 import NoteList from "../components/NoteList";
+import Colours from "../config/Colours";
 
 const validationSchema = Yup.object().shape({
   note: Yup.string(),
 });
 
 function FridgeScreen(props) {
-  const [Note, setNote] = useState([]);
-  const { user, household } = useAuth();
-
-  useEffect(() => {
-    setNote(household.notes);
-  }, []);
+  const { user, household, updateHousehold } = useAuth();
+  const [isVisible, setIsVisible] = useState(false);
 
   const uploadNote = async ({ note_upload }) => {
-    const result = await postNote(household._id, note_upload, user.img_id);
-    setNote(result.data.notes);
-    // console.log("HERE", Note);
+    const result = await postNote(note_upload);
+    await updateHousehold(result.data);
   };
 
   // Fix Structure of Data
 
   return (
     <Screen>
-      <NoteList
-        note={household.notes.note}
-        icon={household.notes.user_img_id}
-      />
-      <AppForm
-        initialValues={{ note_upload: "" }}
-        onSubmit={uploadNote}
-        validationSchema={validationSchema}
-      >
-        <AppFormField name="note_upload" icon="note" placeholder="NOTE" />
-        <SubmitButton title="Upload Note" />
-      </AppForm>
+      <View style={{ height: "100%", justifyContent: "space-between" }}>
+        <NoteList
+          renderRightActions={() => (
+            <ListItemDeleteAction onPress={handleDelete} />
+          )}
+        />
+        <View
+          style={{
+            flex: 1,
+            justifyContent: isVisible ? "flex-start" : "flex-end",
+            alignSelf: "center",
+            width: "90%",
+          }}
+        >
+          <AppForm
+            initialValues={{ note_upload: "" }}
+            onSubmit={uploadNote}
+            validationSchema={validationSchema}
+          >
+            <AppFormField
+              name="note_upload"
+              icon="note"
+              placeholder="NOTE"
+              onFocus={() => setIsVisible(true)}
+              onBlur={() => setIsVisible(false)}
+            />
+            <SubmitButton title="Upload Note" />
+          </AppForm>
+        </View>
+      </View>
     </Screen>
   );
 }

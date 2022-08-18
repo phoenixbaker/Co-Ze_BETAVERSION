@@ -8,20 +8,23 @@ import Screen from "../components/Screen";
 import AppText from "../config/AppText";
 import AuthContext from "../auth/context";
 import useAuth from "../auth/useAuth";
+import { getUserDetails } from "../api/users";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(4).label("name"),
 });
 
 function CreateHouseHoldScreen({ navigation }) {
-  const { user, newHouseHold } = useAuth();
-  console.log(user);
+  const { user, updateHousehold, updateUser } = useAuth();
 
   const registerHouseHold = async ({ name }) => {
     const result = await postHousehold(name, user._id);
+    console.log("From post household");
+    console.log(result.data);
     if (result.ok) {
-      console.log(result);
-      newHouseHold(result.data._id, result.data.name);
+      await updateHousehold(result.data.households[0]);
+      const { data } = await getUserDetails(user._id);
+      await updateUser(data);
       navigation.navigate("Dashboard");
     }
   };

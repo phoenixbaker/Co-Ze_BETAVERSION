@@ -4,14 +4,21 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 import Colours from "../config/Colours";
+import AppButton from "../components/AppButton";
 
-export default function ImageInput({ image, onChangeImage }) {
+export default function ImageInput({
+  image,
+  onChangeImage,
+  onPress,
+  containerStyles,
+}) {
   useEffect(() => {
     requestPermission();
   }, []);
@@ -25,12 +32,10 @@ export default function ImageInput({ image, onChangeImage }) {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 0,
         base64: true,
       });
       if (!result.cancelled) {
         onChangeImage(result);
-        console.log(result);
       }
     } catch (error) {
       console.log("Error reading an image", error);
@@ -38,28 +43,31 @@ export default function ImageInput({ image, onChangeImage }) {
   };
 
   const handlePress = () => {
-    if (!image) selectImage();
-    else
-      Alert.alert("Delete", "Are you sure you want to delete this image?", [
-        { text: "Yes", onPress: () => onChangeImage(null) },
-        { text: "No" },
-      ]);
+    onChangeImage(null);
+    selectImage();
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={styles.container}>
-        {!image ? (
-          <MaterialCommunityIcons
-            name="camera"
-            color={Colours.mediumgray}
-            size={40}
-          />
-        ) : (
-          <Image source={{ uri: image.uri }} style={styles.image} />
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+    <View style={{ alignItems: "center" }}>
+      <TouchableOpacity onPress={image ? onPress : handlePress}>
+        <View style={[styles.container, containerStyles]}>
+          {!image ? (
+            <MaterialCommunityIcons
+              name="camera"
+              color={Colours.mediumgray}
+              size={40}
+            />
+          ) : (
+            <Image source={{ uri: image.uri }} style={styles.image} />
+          )}
+        </View>
+      </TouchableOpacity>
+      <AppButton
+        text="^ Upload a Photo ^"
+        onPress={handlePress}
+        buttonStyle={{ width: 300 }}
+      />
+    </View>
   );
 }
 

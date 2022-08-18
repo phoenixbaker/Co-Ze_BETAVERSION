@@ -1,87 +1,156 @@
 import { useContext } from "react";
-import jwtDecode from "jwt-decode";
 
-import { getHousehold } from "../api/household";
 import AuthContext from "./context";
 import authStorage from "./storage/token";
 import userStorage from "./storage/user";
-import { getLocation } from "../api/location";
-import { getProfilePicture } from "../api/users";
-import ProfilePictureScreen from "../screens/ProfilePictureScreen";
-
-// Redo
+import imageStorage from "./storage/images";
+import { getProfilePicture, getStoryPicture } from "../api/profilepicture";
+import { getHousehold } from "../api/household";
+import { getUserDetails } from "../api/users";
 
 export default useAuth = () => {
-  const { user, setUser, household, setHousehold, img, setImg } =
-    useContext(AuthContext);
+  const {
+    user,
+    setUser,
+    household,
+    setHousehold,
+    img,
+    setImg,
+    stories,
+    setStories,
+  } = useContext(AuthContext);
 
-  const logOut = () => {
-    setUser(null);
+  const logOut = async (user) => {
+    await userStorage.removeUser();
+    await setUser(null);
 
-    authStorage.removeToken();
+    await authStorage.removeToken();
+
+    setStories({});
+
+    await imageStorage.removeImage();
+    await setImg({});
   };
 
-  const logIn = async (res) => {
-    await setToken(res.headers["x-auth-token"]);
-    await setHouseholdStorage(res.data.households[0]);
-    await logInUser(res.data);
-    await profilePicture();
+  const logIn = async (user, authToken) => {
+    await updateAuthToken(authToken);
+
+    const data = await updateHousehold(user.households[0]);
+
+    await updateImages(data);
+
+    await updateUser(user);
+    return;
   };
 
-  const profilePicture = async () => {
-    const res = await getProfilePicture();
-    userStorage.setImages(res);
-    setImg(res);
+  const updateUserStories = async (user) => {
+    if (!user.stories.length) return;
+    let stories = user.stories;
+    const { data } = await getStoryPicture(user.stories[0]);
+    await setStories((story) => ({
+      ...story,
+      [user._id]: {
+        id: user.stories[0],
+        img: "data:image/png;base64," + data,
+      },
+    }));
+    return;
   };
 
-  const logInUser = async (data) => {
-    await userStorage.setUser(data);
-    setUser(data);
-  };
-
-  const setHouseholdStorage = async (value) => {
-    const res = await getHousehold(value);
-    if (res.ok) {
-      setHousehold(res.data);
+  const updateUserImage = async (user) => {
+    if (!user.img) return;
+    let image = user.img;
+    if (image.type === "html") {
+      await setImg({
+        ...img,
+        [user._id]: {
+          type: "html",
+          id: image.id,
+          img: image.id,
+        },
+      });
+      // await imageStorage.setImage(user._id, {
+      //   type: "html",
+      //   id: image.id,
+      //   img: image.id,
+      // });
+      return;
     }
+
+    const { data } = await getProfilePicture(user.img.id);
+    console.log("got img data");
+    await setImg((img) => ({
+      ...img,
+      [user._id]: {
+        type: "base64",
+        id: image.id,
+        img: "data:image/png;base64," + data,
+      },
+    }));
+    // await imageStorage.setImage(user._id, {
+    //   type: "base64",
+    //   id: image.id,
+    //   img: "data:image/png;base64," + data,
+    // });
+    return;
   };
 
-  const setToken = async (value) => {
-    await authStorage.setToken(value);
+  const updateAuthToken = async (authToken) => {
+    await authStorage.setToken(authToken);
+    return;
   };
 
-  const getHouseholdInfo = async () => {
-    const result = await getHousehold(user.households[0]);
-    setHousehold(result.data);
-    // console.log(household);
+  const updateUser = async (user) => {
+    console.log("update user here");
+    const { data } = await getUserDetails();
+    await setUser(data);
+    await userStorage.setUser(user);
   };
 
-  const location = async () => {
-    const currentLocation = await getLocation(user._id);
-    // user.longitude.push(currentLocation.longitude);
-    // user.latitude.push(currentLocation.latitude);
-    setUser(currentLocation);
-    // console.log(user);
+  const updateHousehold = async (household) => {
+    if (!household) return;
+
+    console.log("update Household");
+    let res;
+    if (household.length === 24) res = await getHousehold(household);
+    else res = await getHousehold(household._id);
+    await setHousehold(res.data);
+    return res.data;
   };
 
-  const newHouseHold = (_id, name) => {
-    user.households.push(_id);
-    user.households_name.push(name);
-    setUser(user);
+  const updateImages = async (household) => {
+    await setImg({});
+    await setStories({});
+    await Promise.all(
+      household.users.map(async (user) => {
+        console.log("In map");
+        await updateUserImage(user);
+        await updateUserStories(user);
+      })
+    );
+
+    console.log("finished storing images");
+    return;
+  };
+
+  const restoreUser = async () => {
+    const user = await userStorage.getUser();
+    if (user) updateUser(user);
   };
 
   return {
     user,
     setUser,
-    household,
-    logOut,
-    logIn,
-    newHouseHold,
-    location,
-    getHouseholdInfo,
-    setHousehold,
-    household,
+    updateUser,
     img,
-    setImg,
+    updateUserImage,
+    household,
+    setHousehold,
+    updateHousehold,
+    logIn,
+    logOut,
+    restoreUser,
+    stories,
+    setStories,
   };
 };

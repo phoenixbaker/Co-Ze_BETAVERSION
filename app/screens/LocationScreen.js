@@ -8,11 +8,7 @@ import useAuth from "../auth/useAuth";
 
 function LocationScreen(props) {
   const [currentLocation, setCurrentLocation] = useState();
-  const { user, location, household } = useAuth();
-
-  // useEffect(() => {
-  //   location();
-  // }, []);
+  const { user, household } = useAuth();
 
   return (
     <Screen>

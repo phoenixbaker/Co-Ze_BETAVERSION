@@ -2,14 +2,18 @@ import apiClient from "./client";
 
 const endpoint = "/my/notes";
 
-const postNote = async (household_id, note_upload, img_id) => {
+const postNote = async (note_upload) => {
   const note = await apiClient.put(endpoint, {
-    id: household_id,
     note: note_upload,
-    img_id: img_id,
   });
-  console.log(note.data);
   return note;
+};
+
+const deleteNote = async (note) => {
+  const res = await apiClient.put(endpoint + "/delete", {
+    note: note,
+  });
+  return res;
 };
 
 const getNotes = async (household_id) => {
@@ -19,4 +23,4 @@ const getNotes = async (household_id) => {
   return note;
 };
 
-export { postNote, getNotes };
+export { postNote, getNotes, deleteNote };

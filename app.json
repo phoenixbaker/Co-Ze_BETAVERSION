@@ -9,6 +9,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
+    "scheme": "co-zy",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -16,12 +17,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.CoZy.CoZyFamilies",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF"
-      }
+      },
+          "package": "com.CoZy.CoZyFamilies",
+      "versionCode": 1
     },
     "web": {
     }

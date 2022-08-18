@@ -7,30 +7,25 @@ const endpoint = "/location";
 
 const endPoint_2 = "/location/household";
 
-const getLocation = async (id) => {
-  const { data } = await apiClient.post(endpoint, {
-    id: id,
-  });
-  return data;
+const getLocation = async () => {
+  const res = await apiClient.get(endpoint);
+  return res;
 };
 
-const updateLocation = async (latitude, longitude, id) => {
-  const { data } = await apiClient.put(endpoint, {
-    id: id,
-    longitude: longitude,
-    latitude: latitude,
+const updateLocation = async (coords) => {
+  const res = await apiClient.put(endpoint, {
+    coords: coords,
   });
-  return data;
+  return res;
 };
 
 const householdLocation = async (lat, lng, id) => {
-  const location = await apiClient.put(endPoint_2, {
+  const res = await apiClient.put(endPoint_2, {
     household_id: id,
     lat: lat,
     lng: lng,
   });
-  // console.log(location);
-  return location;
+  return res;
 };
 
 const getLngLatLocation = async (lat, lng) => {

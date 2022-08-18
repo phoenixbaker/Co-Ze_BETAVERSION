@@ -10,7 +10,7 @@ function ListItemDeleteAction({ onPress }) {
       <View style={styles.container}>
         <MaterialCommunityIcons
           name="trash-can"
-          size={25}
+          size={35}
           color={Colours.white}
         />
       </View>
@@ -21,7 +21,7 @@ function ListItemDeleteAction({ onPress }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colours.danger,
-    width: 50,
+    width: 80,
     justifyContent: "center",
     alignItems: "center",
   },

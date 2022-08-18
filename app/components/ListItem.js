@@ -16,18 +16,32 @@ function ListItem({
   containerstyles,
   title,
   titleStyle,
+  JSXImage,
+  detailContainerStyles,
+  JSXlistSeperator,
+  disabled = false,
 }) {
   return (
     <Swipeable renderRightActions={renderRightActions}>
-      <TouchableHighlight underlayColor={Colours.lightgray} onPress={onPress}>
-        <View style={[styles.container, containerstyles]}>
-          {IconComponent}
-          {image && <Image source={image} style={[styles.image, imageStyle]} />}
-          <View style={styles.detailContainer}>
-            <AppText style={titleStyle}>{title}</AppText>
-            {subTitle && <AppText style={subTitleStyle}>{subTitle}</AppText>}
+      <TouchableHighlight
+        disabled={disabled}
+        underlayColor={Colours.lightgray}
+        onPress={onPress}
+      >
+        <>
+          <View style={[styles.container, containerstyles]}>
+            {IconComponent}
+            {JSXImage && JSXImage}
+            {image && (
+              <Image source={image} style={[styles.image, imageStyle]} />
+            )}
+            <View style={[styles.detailContainer, detailContainerStyles]}>
+              <AppText style={titleStyle}>{title}</AppText>
+              {subTitle && <AppText style={subTitleStyle}>{subTitle}</AppText>}
+            </View>
           </View>
-        </View>
+          {JSXlistSeperator && JSXlistSeperator}
+        </>
       </TouchableHighlight>
     </Swipeable>
   );

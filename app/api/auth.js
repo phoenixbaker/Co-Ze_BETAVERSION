@@ -10,4 +10,12 @@ const fetchAuth = async (email, password) => {
   return data;
 };
 
-export default fetchAuth;
+const fetchValidation = async (email, password) => {
+  const data = await apiClient.post(endPoint + "/validate", {
+    email: email,
+    password: password,
+  });
+  return data;
+};
+
+export { fetchAuth, fetchValidation };

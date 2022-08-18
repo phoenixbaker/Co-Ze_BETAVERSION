@@ -7,23 +7,21 @@ import Card from "./Card";
 import NoteList from "../NoteList";
 
 function FridgeCard({ onPress }) {
-  const { household, getHouseholdInfo } = useAuth();
+  const { household } = useAuth();
 
-  useEffect(() => {
-    getHouseholdInfo();
-  }, []);
+  useEffect(() => {}, [household]);
 
   return (
     <Card title="Fridge" onPress={onPress}>
-      <Text>Have no notes on the fride? Why not add one!</Text>
-      <Text></Text>
-      <Text>Please add styles to this Card Text</Text>
-      {/* <NoteList
-        listStyle={styles.listContainer}
-        imageStyle={styles.image}
-        note={household.notes.note}
-        icon={household.notes.user_img_id}
-      /> */}
+      <NoteList
+        titleStyle={{
+          fontSize: 16,
+        }}
+        imageStyle={{
+          height: 60,
+          width: 60,
+        }}
+      />
     </Card>
   );
 }

@@ -6,7 +6,7 @@ import authStorage from "../auth/storage/token";
 // });
 
 const apiClient = create({
-  baseURL: "http://123.208.183.180:5000/api",
+  baseURL: "http://35.78.185.89/api",
 });
 
 apiClient.addAsyncRequestTransform(async (request) => {

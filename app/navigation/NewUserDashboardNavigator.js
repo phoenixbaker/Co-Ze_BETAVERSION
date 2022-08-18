@@ -12,6 +12,7 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import AppText from "../config/AppText";
 import NewUserDashboardScreen from "../screens/NewUserDashboardScreen";
 import CreateHouseHoldNavigator from "./CreateHouseHoldNavigator";
+import JoinHouseHoldScreen from "../screens/JoinHouseHoldScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ const NewUserDashboardNavigator = () => (
       name="NewUserDashboardScreen"
       component={NewUserDashboardScreen}
     />
+    <Stack.Screen name="JoinHouseHold" component={JoinHouseHoldScreen} />
     <Stack.Screen name="CreateHouseHold" component={CreateHouseHoldNavigator} />
   </Stack.Navigator>
 );

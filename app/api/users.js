@@ -7,22 +7,19 @@ import apiClient from "./client";
 const endpoint = "/users";
 
 const getUserDetails = async () => {
-  const data = await apiClient.post(endpoint + "/me");
-  console.log(data);
+  const data = await apiClient.get(endpoint + "/me");
   return data;
 };
 
-const validateEmail = async (token, email) => {
+const validateEmail = async (email, password) => {
   const res = await apiClient.post(endpoint + "/confirmation", {
-    token: token,
+    password: password,
     email: email,
   });
-  console.log(res.data);
   return res;
 };
 
 const postUser = async (email, password, DOBirth, name) => {
-  console.log("here");
   const data = await apiClient.post(endpoint, {
     email: email,
     password: password,
@@ -31,24 +28,9 @@ const postUser = async (email, password, DOBirth, name) => {
   return data;
 };
 
-const getProfilePicture = async () => {
-  const data = await apiClient.get("/img/download").then((res) => {
-    return new Buffer.from(res.data).toString("base64");
-  });
-  console.log("Got Profile Picture");
+const postNotificationToken = async (token) => {
+  const data = await apiClient.post(endpoint + "/set/notificationToken", token);
   return data;
 };
 
-const uploadProfilePicture = async (formData) => {
-  await apiClient.post("/img/upload", formData).then((Response) => {
-    console.log(Response);
-  });
-};
-
-export {
-  postUser,
-  getProfilePicture,
-  uploadProfilePicture,
-  getUserDetails,
-  validateEmail,
-};
+export { postUser, getUserDetails, validateEmail, postNotificationToken };

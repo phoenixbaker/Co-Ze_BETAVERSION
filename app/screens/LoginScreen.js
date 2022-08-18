@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import AppButton from "../components/AppButton";
 import Colours from "../config/Colours";
 import { AppFormField, AppForm, SubmitButton } from "../components/forms";
-import fetchAuth from "../api/auth";
+import { fetchAuth } from "../api/auth";
 import useAuth from "../auth/useAuth";
 import { getHousehold } from "../api/household";
 
@@ -21,15 +21,16 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen({ navigation }) {
-  const { logIn, household, setHousehold } = useAuth();
+  const { logIn } = useAuth();
 
   const validateLogin = async ({ email, password }) => {
-    const result = await fetchAuth(email, password);
-    if (result.ok) {
-      await logIn(result);
-      // console.log("Does it get here");
-      // navigation.navigate("Dashboard");
+    const user = await fetchAuth(email, password);
+    if (!user.ok) return console.log("Not worked");
+    if (!user.data.verified) {
+      const data = user.data;
+      return navigation.navigate("EmailVerificationScreen", { data });
     }
+    await logIn(user.data, user.headers["x-auth-token"]);
   };
 
   return (
@@ -93,7 +94,7 @@ function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   loginStyle: {
-    color: "black",
+    color: Colours.black,
   },
   imageBackground: {
     flex: 1,

@@ -6,7 +6,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import DashboardScreen from "../screens/DashboardScreen";
 import AccountScreen from "../screens/AccountScreen";
-import MessagesScreen from "../screens/MessagesScreen";
+import MessagesScreenNavigator from "./MessagesScreenNavigator";
+import SettingsScreenNavigator from "./SettingsScreenNavigator";
+import MessageUserScreen from "../screens/MessageUserScreen";
 
 const Tabs = createBottomTabNavigator();
 
@@ -24,7 +26,7 @@ function BottomTabNavigator(props) {
       />
       <Tabs.Screen
         name="Messages"
-        component={MessagesScreen}
+        component={MessagesScreenNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="message" color={color} size={size} />
@@ -33,10 +35,14 @@ function BottomTabNavigator(props) {
       />
       <Tabs.Screen
         name="Settings"
-        component={AccountScreen}
+        component={SettingsScreenNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="help" color={color} size={size} />
+            <MaterialCommunityIcons
+              name="settings-helper"
+              color={color}
+              size={size}
+            />
           ),
         }}
       />

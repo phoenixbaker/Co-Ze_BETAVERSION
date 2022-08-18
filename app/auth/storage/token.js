@@ -4,7 +4,6 @@ import jwtDecode from "jwt-decode";
 const key = "authToken";
 
 const setToken = async (authToken) => {
-  console.log(authToken);
   try {
     await SecureStore.setItemAsync(key, authToken);
   } catch (e) {

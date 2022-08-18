@@ -1,69 +1,80 @@
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, FlatList, Text } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 import ListItemDeleteAction from "../components/ListItemDeleteAction";
-import { getProfilePicture } from "../api/users";
 import Colours from "../config/Colours";
 import ListItem from "./ListItem";
+import useAuth from "../auth/useAuth";
+import DisplayImage from "./DisplayImage";
+import { getProfilePicture } from "../api/profilepicture";
+import { deleteNote } from "../api/notes";
 
 function NoteList({
-  note,
-  icon,
-  renderRightActions,
   containerListStyle,
-  noteListStyle,
+  renderRightActions,
   imageStyle,
+  listStyle,
+  titleStyle,
 }) {
+  const { household, updateHousehold, img, user } = useAuth();
+  const [notes, setNotes] = useState(false);
   const [ready, setReady] = useState(false);
-  const [combArr, setCombArr] = useState();
-  useEffect(() => {
-    combination(note, icon);
-  }, []);
+  // const [combArr, setCombArr] = useState();
 
-  const handleDelete = (message) => {
-    setNote(Note.filter((m) => m.note !== message.note));
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    handleNotes();
+  }, [household, user]);
+
+  const handleNotes = () => {
+    household.users.forEach((user, i) => {
+      if (!user.notes.length) return;
+      setNotes(true);
+    });
+    setReady(true);
   };
 
-  const combination = async (note, icon) => {
-    const comb = [[]];
-    const imgArr = [];
-    icon.forEach(async (name, i) => {
-      await getProfilePicture().then((Response) => {
-        const data = Response;
-        imgArr.push("data:image/png;base64," + data);
-        if (imgArr.length === note.length) {
-          for (let i in note) {
-            comb.push([note[i], imgArr[i]]);
-          }
-          comb.shift();
-          if (comb === combArr) return;
-          setCombArr(comb);
-          setReady(true);
-        }
-      });
-    });
+  const handleDelete = async (note) => {
+    const { data } = await deleteNote(note);
+    await updateHousehold(data);
+    handleNotes();
+    return;
   };
 
   return (
     <View style={containerListStyle}>
       {ready ? (
-        <>
-          {combArr.map(function (val, i) {
-            return (
-              <ListItem
-                renderRightActions={() => (
-                  <ListItemDeleteAction onPress={handleDelete} />
-                )}
-                title={combArr[i][0]}
-                imageStyle={imageStyle}
-                image={{ uri: combArr[i][1] }}
-                containerstyles={noteListStyle}
-              />
-            );
-          })}
-        </>
+        notes ? (
+          <FlatList
+            data={household.users}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) =>
+              item.notes.map((note, id) => (
+                <ListItem
+                  containerstyles={listStyle}
+                  title={note}
+                  JSXImage={<DisplayImage img={img[item._id]} />}
+                  imageStyle={imageStyle}
+                  titleStyle={titleStyle}
+                  subTitle={item.name}
+                  subTitleStyle={{
+                    textTransform: "capitalize",
+                    fontSize: 16,
+                  }}
+                  renderRightActions={() => (
+                    <ListItemDeleteAction onPress={() => handleDelete(note)} />
+                  )}
+                />
+              ))
+            }
+          />
+        ) : (
+          <Text>Maybe add notes |-|</Text>
+        )
       ) : (
-        <ActivityIndicator color={Colours.primary} size="large" />
+        <ActivityIndicator color={Colours.primary} />
       )}
     </View>
   );
