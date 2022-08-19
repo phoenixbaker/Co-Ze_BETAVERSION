@@ -8,13 +8,9 @@ const transition = (
   </Transition.Together>
 );
 
-function DropDown({ placeHolder, children }) {
-  const [open, setOpen] = useState(false);
+function DropDown({ placeHolder, children, shown = false }) {
+  const [open, setOpen] = useState(shown);
   const ref = useRef();
-
-  useEffect(() => {
-    setOpen(false);
-  }, []);
 
   const toggle = () => {
     setOpen(!open);
@@ -23,10 +19,8 @@ function DropDown({ placeHolder, children }) {
 
   return (
     <Transitioning.View transition={transition} ref={ref}>
-      <TouchableOpacity onPress={toggle}>
-        {placeHolder}
-        {open && children}
-      </TouchableOpacity>
+      <TouchableOpacity onPress={toggle}>{placeHolder}</TouchableOpacity>
+      {open && children}
     </Transitioning.View>
   );
 }

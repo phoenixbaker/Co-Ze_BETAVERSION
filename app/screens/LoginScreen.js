@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Image,
   ImageBackground,
   Keyboard,
   StyleSheet,
@@ -35,59 +36,68 @@ function LoginScreen({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <ImageBackground
-        source={require("../assets/familyphoto.jpg")}
-        blurRadius={8}
-        style={styles.imageBackground}
-      >
+      <View style={styles.background}>
         <View style={styles.container}>
-          <AppForm
-            initialValues={{
-              email: "",
-              password: "",
-            }}
-            onSubmit={validateLogin}
-            validationSchema={validationSchema}
-          >
-            <AppFormField
-              name="email"
-              icon="email"
-              placeholder="EMAIL"
-              inputStyle={styles.loginStyle}
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="email-address"
-              textContentType="emailAddress"
-            />
-            <AppFormField
-              name="password"
-              icon="key"
-              autoCapitalize="none"
-              autoCorrect={false}
-              textContentType="password"
-              placeholder="PASSWORD"
-              inputStyle={styles.loginStyle}
-              secureTextEntry
-            />
-            <SubmitButton
-              title="LOGIN"
-              textStyle={{
-                fontWeight: "700",
+          <View style={{ bottom: 100 }}>
+            <Image
+              source={require("../assets/co-zy-logo.jpg")}
+              style={{
+                height: 120,
+                width: 120,
+                alignSelf: "center",
+                borderRadius: 20,
               }}
             />
-          </AppForm>
-          <AppButton
-            buttonStyle={styles.signupButton}
-            textStyle={{
-              textTransform: "none",
-              textAlign: "center",
-            }}
-            text="Don't have an Account?
-                        Sign Up"
-            onPress={() => console.log("To Register")}
-          />
+          </View>
+          <View style={{ bottom: 20 }}>
+            <AppForm
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              onSubmit={validateLogin}
+              validationSchema={validationSchema}
+            >
+              <AppFormField
+                name="email"
+                icon="email"
+                placeholder="EMAIL"
+                inputStyle={styles.loginStyle}
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="email-address"
+                textContentType="emailAddress"
+              />
+              <AppFormField
+                name="password"
+                icon="key"
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="password"
+                placeholder="PASSWORD"
+                inputStyle={styles.loginStyle}
+                secureTextEntry
+              />
+              <SubmitButton
+                title="LOGIN"
+                textStyle={{
+                  fontWeight: "700",
+                }}
+              />
+            </AppForm>
+            <AppButton
+              buttonStyle={styles.signupButton}
+              textStyle={{
+                textTransform: "none",
+                textAlign: "center",
+              }}
+              text="Don't have an Account?
+            Sign Up"
+              onPress={() => console.log("To Register")}
+            />
+          </View>
         </View>
-      </ImageBackground>
+      </View>
     </TouchableWithoutFeedback>
   );
 }
@@ -96,8 +106,9 @@ const styles = StyleSheet.create({
   loginStyle: {
     color: Colours.black,
   },
-  imageBackground: {
+  background: {
     flex: 1,
+    backgroundColor: Colours.white,
     justifyContent: "center",
     alignItems: "center",
   },

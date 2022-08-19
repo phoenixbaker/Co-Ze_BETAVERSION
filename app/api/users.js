@@ -19,11 +19,12 @@ const validateEmail = async (email, password) => {
   return res;
 };
 
-const postUser = async (email, password, DOBirth, name) => {
+const postUser = async (email, password, DOBirth, name, FBId = null) => {
   const data = await apiClient.post(endpoint, {
-    email: email,
-    password: password,
-    name: name,
+    email,
+    password,
+    name,
+    FBId,
   });
   return data;
 };

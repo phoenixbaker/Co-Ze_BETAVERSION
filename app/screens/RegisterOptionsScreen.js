@@ -1,43 +1,70 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import * as Facebook from "expo-facebook";
+import { Alert, StyleSheet, Text, View, Platform } from "react-native";
+import React, { createContext, useEffect, useState } from "react";
+import * as AppleAuthentication from "expo-apple-authentication";
+
+import {
+  FacebookRegister,
+  GoogleRegister,
+  AppleRegister,
+  TwitterRegister,
+  AppRegister,
+} from "../components/registerUser";
 import AppButton from "../components/AppButton";
-// import * as facebookAuth from 'expo-auth-session/providers/facebook'
-// import * as WebBrowser from 'expo-web-browser'
 
-// WebBrowser.maybeCompleteAuthSession();
+import * as WebBrowser from "expo-web-browser";
+import Colours from "../config/Colours";
 
-const faceBookID = "321336776685083";
+WebBrowser.maybeCompleteAuthSession();
 
-export default function RegisterOptionsScreen() {
-  const faceBookLogIn = async () => {
-    try {
-      await Facebook.initializeAsync({
-        appId: faceBookID,
-      });
-      const { type, token, expirationDate, permissions, declinedPermissions } =
-        await Facebook.logInWithReadPermissionsAsync({
-          permissions: ["public_profile"],
-        });
-      if (type === "success") {
-        // Get the user's name using Facebook's Graph API
-        let response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`
-        );
-        // const user_id = await response.json().id;
+const registerUser = createContext();
 
-        Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
-      } else {
-        // type === 'cancel'
-      }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
-    }
-  };
+export default function RegisterOptionsScreen({ navigation }) {
+  const [registeredUser, setRegisteredUser] = useState(null);
+
+  useEffect(() => {
+    console.log(registeredUser);
+
+    // Facebook
+    // email, FB_id, name, FB_IDToken
+
+    // Gmail
+    // email, Gmail_id, name, Gmail_IDToken
+
+    // Apple
+    // email, Apple_ID, name, Apple_IDToken
+
+    if (registeredUser === null) return;
+    return navigation.navigate("RegisterDetailsScreen", {
+      registeredUser: registeredUser,
+    });
+  }, [registeredUser]);
 
   return (
-    <View>
-      <AppButton text="FaceBook" onPress={() => faceBookLogIn()} />
+    <View
+      style={{
+        backgroundColor: Colours.white,
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <registerUser.Provider value={{ registeredUser, setRegisteredUser }}>
+        <View style={{ width: "93%" }}>
+          <FacebookRegister context={registerUser} />
+          <TwitterRegister context={registerUser} />
+          <GoogleRegister context={registerUser} />
+          {Platform.OS === "ios" && <AppleRegister context={registerUser} />}
+          <View>
+            <AppRegister
+              onPress={() =>
+                navigation.navigate("RegisterDetailsScreen", {
+                  registeredUser: registeredUser,
+                })
+              }
+            />
+          </View>
+        </View>
+      </registerUser.Provider>
     </View>
   );
 }
