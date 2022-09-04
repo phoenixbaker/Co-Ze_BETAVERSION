@@ -8,12 +8,17 @@ const transition = (
   </Transition.Together>
 );
 
-function DropDown({ placeHolder, children, shown = false }) {
+function DropDown({ placeHolder, children, shown = false, visibleCallBack }) {
   const [open, setOpen] = useState(shown);
   const ref = useRef();
 
+  useEffect(() => {
+    setOpen(shown);
+  }, [shown]);
+
   const toggle = () => {
     setOpen(!open);
+    visibleCallBack && visibleCallBack(!open);
     ref.current.animateNextTransition();
   };
 

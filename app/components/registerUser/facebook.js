@@ -26,7 +26,11 @@ export default function facebookRegister({ context }) {
         const data = await response.json();
         setRegisteredUser({
           data,
-          from: "Facebook",
+          from: {
+            provider: "Facebook",
+            authToken: token,
+            id: data.id,
+          },
           verified: true,
         });
         // Navigate to password

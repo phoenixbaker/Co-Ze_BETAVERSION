@@ -13,6 +13,7 @@ import { deleteNote } from "../api/notes";
 function NoteList({
   containerListStyle,
   renderRightActions,
+  renderNoNotes,
   imageStyle,
   listStyle,
   titleStyle,
@@ -22,16 +23,16 @@ function NoteList({
   const [ready, setReady] = useState(false);
   // const [combArr, setCombArr] = useState();
 
-  const isFocused = useIsFocused();
-
   useEffect(() => {
     handleNotes();
   }, [household, user]);
 
   const handleNotes = () => {
+    setNotes(false);
     household.users.forEach((user, i) => {
       if (!user.notes.length) return;
       setNotes(true);
+      return;
     });
     setReady(true);
   };
@@ -44,39 +45,43 @@ function NoteList({
   };
 
   return (
-    <View style={containerListStyle}>
-      {ready ? (
-        notes ? (
-          <FlatList
-            data={household.users}
-            keyExtractor={(item) => item._id}
-            renderItem={({ item }) =>
-              item.notes.map((note, id) => (
-                <ListItem
-                  containerstyles={listStyle}
-                  title={note}
-                  JSXImage={<DisplayImage img={img[item._id]} />}
-                  imageStyle={imageStyle}
-                  titleStyle={titleStyle}
-                  subTitle={item.name}
-                  subTitleStyle={{
-                    textTransform: "capitalize",
-                    fontSize: 16,
-                  }}
-                  renderRightActions={() => (
-                    <ListItemDeleteAction onPress={() => handleDelete(note)} />
-                  )}
-                />
-              ))
-            }
-          />
+    <>
+      <View style={containerListStyle}>
+        {ready ? (
+          notes ? (
+            <FlatList
+              data={household.users}
+              keyExtractor={(item) => item._id}
+              renderItem={({ item }) =>
+                item.notes.map((note, id) => (
+                  <ListItem
+                    containerstyles={listStyle}
+                    title={note}
+                    JSXImage={<DisplayImage img={img[item._id]} />}
+                    imageStyle={imageStyle}
+                    titleStyle={titleStyle}
+                    subTitle={item.name}
+                    subTitleStyle={{
+                      textTransform: "capitalize",
+                      fontSize: 16,
+                    }}
+                    renderRightActions={() => (
+                      <ListItemDeleteAction
+                        onPress={() => handleDelete(note)}
+                      />
+                    )}
+                  />
+                ))
+              }
+            />
+          ) : (
+            renderNoNotes
+          )
         ) : (
-          <Text>Maybe add notes |-|</Text>
-        )
-      ) : (
-        <ActivityIndicator color={Colours.primary} />
-      )}
-    </View>
+          <ActivityIndicator color={Colours.primary} />
+        )}
+      </View>
+    </>
   );
 }
 

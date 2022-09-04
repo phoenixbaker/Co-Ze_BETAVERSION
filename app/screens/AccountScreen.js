@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, Alert } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { CommonActions } from "@react-navigation/native";
 
 import AppText from "../config/AppText";
 import ListItem from "../components/ListItem";
 import Screen from "../components/Screen";
 import Colours from "../config/Colours";
 import useAuth from "../auth/useAuth";
-import { getProfilePicture } from "../api/users";
-import ImageInput from "../components/ImageInput";
+import Subscription from "../components/Subscription";
 import DropDown from "../components/DropDown";
 import DisplayImage from "../components/DisplayImage";
-import { getHouseholdCode } from "../api/household";
-import { object } from "yup";
+import { getHouseholdCode, removeHousehold } from "../api/household";
+import PromtSendMessage from "../components/PromtSendMessage";
 
 function AccountScreen({ navigation }) {
   const { household, img, logOut, user } = useAuth();
@@ -26,6 +26,37 @@ function AccountScreen({ navigation }) {
       setKey(data.code);
     }
     setShow(!show);
+  };
+
+  const handleHouseholdDelete = async () => {
+    Alert.alert(
+      `Delete Current Household`,
+      `Are you sure you want to delete household ${household.name}?`,
+      [
+        {
+          text: "Ok",
+          onPress: async () => {
+            await removeHousehold(household._id);
+            logOut();
+            return navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: "AuthNavigator" }],
+              })
+            );
+          },
+          style: "default",
+        },
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => console.log("Dissmissed"),
+      }
+    );
   };
 
   return (
@@ -81,7 +112,15 @@ function AccountScreen({ navigation }) {
               IconComponent={
                 <MaterialCommunityIcons name="logout" size={40} color="black" />
               }
-              onPress={() => logOut()}
+              onPress={() => {
+                logOut();
+                return navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: "AuthNavigator" }],
+                  })
+                );
+              }}
               // Create Nav for each screen
             />
           </DropDown>
@@ -149,31 +188,13 @@ function AccountScreen({ navigation }) {
                 }
                 onPress={() => showKey()}
               />
-              <ListItem
-                title="SMS household linking code"
-                titleStyle={{
-                  fontWeight: "500",
-                  fontSize: 16,
-                }}
-                containerstyles={{
-                  backgroundColor: Colours.titleCardGray,
-                }}
-                IconComponent={
-                  <MaterialCommunityIcons
-                    name="message"
-                    size={25}
-                    color="black"
-                  />
-                }
-                onPress={() => navigation.navigate("Profile_Picture")}
-              />
+              <PromtSendMessage />
             </DropDown>
 
             <DropDown
               placeHolder={
                 <ListItem
                   title="Users in Household"
-                  subTitle="(Coming Soon)"
                   titleStyle={{
                     fontWeight: "600",
                   }}
@@ -199,15 +220,22 @@ function AccountScreen({ navigation }) {
                 )}
               />
             </DropDown>
+            <ListItem
+              title="Remove Household"
+              titleStyle={{
+                fontWeight: "600",
+              }}
+              IconComponent={
+                <MaterialCommunityIcons
+                  name="trash-can-outline"
+                  size={35}
+                  color="black"
+                />
+              }
+              onPress={() => handleHouseholdDelete()}
+            />
           </DropDown>
-          <ListItem
-            title="Subscription"
-            titleStyle={{
-              fontWeight: "600",
-            }}
-            containerstyles={{ backgroundColor: "#ffc60a" }}
-            IconComponent={<MaterialCommunityIcons name="key" size={40} />}
-          />
+          <Subscription onPress={() => navigation.navigate("Subscription")} />
         </View>
       </Screen>
     </>

@@ -31,7 +31,7 @@ function DashboardScreen({ navigation }) {
           <FridgeCard onPress={() => navigation.navigate("Fridge")} />
           <FamilyMembersCard onPress={() => navigation.navigate("Location")} />
           <EventsCard onPress={() => navigation.navigate("Events")} />
-          <ExpensesCard o nPress={() => navigation.navigate("Expenses")} />
+          <ExpensesCard onPress={() => navigation.navigate("Expenses")} />
         </ScrollView>
       </Screen>
     </>

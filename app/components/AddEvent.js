@@ -6,14 +6,22 @@ import Colours from "../config/Colours";
 import { postEvent } from "../api/events";
 import useAuth from "../auth/useAuth";
 import AppButton from "./AppButton";
+import { sendHouseholdNotification } from "../api/notification";
 
 export default function addEvent({ day, onFocus, onBlur, onPress, visible }) {
-  const { updateHousehold } = useAuth();
+  const { updateHousehold, household, user } = useAuth();
   const [display, setDisplay] = useState();
   const handleSubmit = async ({ eventName, eventType, details }) => {
     const res = await postEvent(eventName, eventType, details, day);
     if (!res.ok) console.warn(res.problem);
     updateHousehold(res.data);
+    if (household.subscription === "Free") return;
+    return sendHouseholdNotification(
+      household.users,
+      "Event has been Added",
+      `${user.name}
+${day.dateString}: ${eventName}`
+    );
   };
 
   useEffect(() => {
@@ -22,7 +30,7 @@ export default function addEvent({ day, onFocus, onBlur, onPress, visible }) {
   }, [visible]);
 
   return (
-    <View>
+    <View style={{ width: "90%", alignSelf: "center" }}>
       <View>
         <AppForm
           initialValues={{
@@ -70,8 +78,17 @@ export default function addEvent({ day, onFocus, onBlur, onPress, visible }) {
         </AppForm>
       </View>
       <AppButton
-        text="Add Event"
-        buttonStyle={{ width: "95%", alignSelf: "center" }}
+        text={visible ? "Close" : "Add Event"}
+        buttonStyle={{
+          width: "100%",
+          alignSelf: "center",
+          backgroundColor: "transparent",
+          borderWidth: 2,
+          borderColor: Colours.primary,
+        }}
+        textStyle={{
+          color: Colours.primary,
+        }}
         onPress={onPress}
       />
     </View>

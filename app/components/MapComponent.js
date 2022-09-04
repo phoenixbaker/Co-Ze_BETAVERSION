@@ -7,10 +7,16 @@ import { getUserLocation } from "./Location";
 import DisplayImage from "./DisplayImage";
 import useAuth from "../auth/useAuth";
 import Colours from "../config/Colours";
-import familyImageStorage from "../auth/storage/familyAvatar";
 
-export default function MapComponent() {
-  const myRef = useRef();
+export default function MapComponent({
+  onPress,
+  mapStyle = styles.map,
+  onUserSelect,
+  onHouseholdSelect,
+  shownRegion,
+  onRegionChange,
+}) {
+  const mapViewRef = useRef();
   const { household, user, img, updateUser } = useAuth();
   const [isReady, setIsReady] = useState(false);
   const [locations, setLocations] = useState();
@@ -19,7 +25,9 @@ export default function MapComponent() {
 
   useEffect(() => {
     if (isFocused) {
-      setInterval(() => getUserLocation(), 10000);
+      setInterval(() => {
+        getUserLocation();
+      }, 10000);
     }
   }, []);
 
@@ -28,23 +36,20 @@ export default function MapComponent() {
   return (
     <>
       <MapView
-        ref={myRef}
+        onPress={onPress}
+        ref={mapViewRef}
         // onRegionChange={() => {
         //   getPosition();
         // }}
-        style={styles.map}
-        initialRegion={{
-          latitude: parseFloat(household.location.latitude, 10),
-          longitude: parseFloat(household.location.longitude, 10),
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.0121,
-        }}
+        style={[styles.map, mapStyle]}
+        initialRegion={shownRegion}
       >
         <Marker
           coordinate={{
             latitude: parseFloat(household.location.latitude, 10),
             longitude: parseFloat(household.location.longitude, 10),
           }}
+          onPress={onHouseholdSelect}
           title={household.name}
           style={{ alignContent: "center" }}
         >
@@ -62,6 +67,7 @@ export default function MapComponent() {
                 longitude: parseFloat(user.location.longitude, 10),
               }}
               title={user.name}
+              onPress={() => onUserSelect(user)}
             >
               <DisplayImage
                 img={img[user._id]}

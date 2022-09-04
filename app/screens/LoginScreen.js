@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import * as Yup from "yup";
+import { CommonActions } from "@react-navigation/native";
 
 import AppButton from "../components/AppButton";
 import Colours from "../config/Colours";
@@ -22,7 +23,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen({ navigation }) {
-  const { logIn } = useAuth();
+  const { logIn, updateUserImage } = useAuth();
 
   const validateLogin = async ({ email, password }) => {
     const user = await fetchAuth(email, password);
@@ -32,6 +33,13 @@ function LoginScreen({ navigation }) {
       return navigation.navigate("EmailVerificationScreen", { data });
     }
     await logIn(user.data, user.headers["x-auth-token"]);
+    await updateUserImage(user.data);
+    return navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "UserNavigator" }],
+      })
+    );
   };
 
   return (

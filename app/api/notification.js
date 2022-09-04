@@ -9,6 +9,20 @@ const apiClient = create({
   },
 });
 
+const sendHouseholdNotification = (users, title, message) => {
+  users.forEach((user) => {
+    console.log(user);
+    const body = {
+      to: user.notificationToken.data,
+      sound: "default",
+      title: title,
+      body: message,
+    };
+    apiClient.post("/send", JSON.stringify(body));
+  });
+  return;
+};
+
 const sendNotification = async (token, user, message) => {
   const body = {
     to: token,
@@ -17,8 +31,8 @@ const sendNotification = async (token, user, message) => {
     body: message,
   };
 
-  apiClient.post("/send", JSON.stringify(body));
+  await apiClient.post("/send", JSON.stringify(body));
   return;
 };
 
-export { sendNotification };
+export { sendNotification, sendHouseholdNotification };

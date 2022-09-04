@@ -5,6 +5,7 @@ import ListItem from "../ListItem";
 import useAuth from "../../auth/useAuth";
 import Card from "./Card";
 import NoteList from "../NoteList";
+import AppButton from "../AppButton";
 
 function FridgeCard({ onPress }) {
   const { household } = useAuth();
@@ -21,6 +22,9 @@ function FridgeCard({ onPress }) {
           height: 60,
           width: 60,
         }}
+        renderNoNotes={
+          <AppButton text="Click to add notes" onPress={onPress} />
+        }
       />
     </Card>
   );

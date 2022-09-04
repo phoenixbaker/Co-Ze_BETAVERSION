@@ -3,11 +3,18 @@ import apiClient from "./client";
 const endPoint = "/household";
 const endPoint_2 = "/household/my";
 
-const postHousehold = async (name, id) => {
+const postHousehold = async (name, location, subscription, id) => {
   const data = await apiClient.post(endPoint, {
     name: name,
+    location: location,
+    subscription: subscription,
     users: id,
   });
+  return data;
+};
+
+const removeHousehold = async (id) => {
+  const data = await apiClient.delete(endPoint + "/" + id);
   return data;
 };
 
@@ -36,10 +43,16 @@ const getHouseholdCode = async () => {
   return await apiClient.get(endPoint + "/key");
 };
 
+const updateSubscription = async (model) => {
+  return await apiClient.put(endPoint + `/subscription/update/${model}`);
+};
+
 export {
+  updateSubscription,
   checkHousholeUpdate,
   postHousehold,
   getHousehold,
   joinHouseholdwithCode,
   getHouseholdCode,
+  removeHousehold,
 };

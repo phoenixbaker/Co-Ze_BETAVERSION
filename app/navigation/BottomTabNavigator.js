@@ -35,7 +35,7 @@ function BottomTabNavigator(props) {
       />
       <Tabs.Screen
         name="Settings"
-        component={SettingsScreenNavigator}
+        component={AccountScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons

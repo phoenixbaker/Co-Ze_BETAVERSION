@@ -19,11 +19,19 @@ WebBrowser.maybeCompleteAuthSession();
 const registerUser = createContext();
 
 export default function RegisterOptionsScreen({ navigation }) {
-  const [registeredUser, setRegisteredUser] = useState(null);
+  const [registeredUser, setRegisteredUser] = useState({
+    data: null,
+    verified: false,
+  });
 
   useEffect(() => {
-    console.log(registeredUser);
+    setRegisteredUser({
+      data: null,
+      verified: false,
+    });
+  }, []);
 
+  useEffect(() => {
     // Facebook
     // email, FB_id, name, FB_IDToken
 
@@ -33,7 +41,7 @@ export default function RegisterOptionsScreen({ navigation }) {
     // Apple
     // email, Apple_ID, name, Apple_IDToken
 
-    if (registeredUser === null) return;
+    if (registeredUser.data === null) return;
     return navigation.navigate("RegisterDetailsScreen", {
       registeredUser: registeredUser,
     });

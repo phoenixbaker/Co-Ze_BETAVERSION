@@ -19,8 +19,15 @@ export default function apple({ context }) {
     // appleIdToken - res.identityToken
     // appleUser - res.user
     setRegisteredUser({
-      data: res,
-      from: "Apple",
+      data: {
+        name: res.fullName.givenName + res.fullName.familyName,
+        email: res.email,
+      },
+      from: {
+        provider: "Apple",
+        AuthCode: res.authorizationCode,
+        IdToken: res.identityToken,
+      },
       verified: true,
     });
   };

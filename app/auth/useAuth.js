@@ -18,18 +18,25 @@ export default useAuth = () => {
     setImg,
     stories,
     setStories,
+    householdLinkID,
+    setHouseholdLinkID,
   } = useContext(AuthContext);
 
-  const logOut = async (user) => {
+  const logOut = async () => {
     await userStorage.removeUser();
+    setHouseholdLinkID(null);
     await setUser(null);
 
     await authStorage.removeToken();
 
     setStories({});
 
-    await imageStorage.removeImage();
     await setImg({});
+  };
+
+  const getAuthToken = async () => {
+    const res = await authStorage.getToken();
+    return res;
   };
 
   const logIn = async (user, authToken) => {
@@ -61,24 +68,17 @@ export default useAuth = () => {
     if (!user.img) return;
     let image = user.img;
     if (image.type === "html") {
-      await setImg({
+      return await setImg((img) => ({
         ...img,
         [user._id]: {
           type: "html",
           id: image.id,
           img: image.id,
         },
-      });
-      // await imageStorage.setImage(user._id, {
-      //   type: "html",
-      //   id: image.id,
-      //   img: image.id,
-      // });
-      return;
+      }));
     }
 
     const { data } = await getProfilePicture(user.img.id);
-    console.log("got img data");
     await setImg((img) => ({
       ...img,
       [user._id]: {
@@ -87,11 +87,6 @@ export default useAuth = () => {
         img: "data:image/png;base64," + data,
       },
     }));
-    // await imageStorage.setImage(user._id, {
-    //   type: "base64",
-    //   id: image.id,
-    //   img: "data:image/png;base64," + data,
-    // });
     return;
   };
 
@@ -104,7 +99,7 @@ export default useAuth = () => {
     console.log("update user here");
     const { data } = await getUserDetails();
     await setUser(data);
-    await userStorage.setUser(user);
+    await userStorage.setUser(data);
   };
 
   const updateHousehold = async (household) => {
@@ -119,11 +114,11 @@ export default useAuth = () => {
   };
 
   const updateImages = async (household) => {
+    if (!household) return;
     await setImg({});
     await setStories({});
     await Promise.all(
       household.users.map(async (user) => {
-        console.log("In map");
         await updateUserImage(user);
         await updateUserStories(user);
       })
@@ -152,5 +147,8 @@ export default useAuth = () => {
     restoreUser,
     stories,
     setStories,
+    getAuthToken,
+    householdLinkID,
+    setHouseholdLinkID,
   };
 };

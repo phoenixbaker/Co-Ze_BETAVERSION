@@ -9,7 +9,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "scheme": "co-zy",
+    "scheme": "cozy",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -26,12 +26,22 @@
       ]
     ],
     "ios": {
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ],
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Family Members know where you are"
+      },
       "supportsTablet": true,
       "bundleIdentifier": "com.CoZy.CoZyFamilies",
       "buildNumber": "1.0.0",
       "usesAppleSignIn": true
     },
     "android": {
+      "permissions": [
+        "ACCESS_BACKGROUND_LOCATION"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF"
       },

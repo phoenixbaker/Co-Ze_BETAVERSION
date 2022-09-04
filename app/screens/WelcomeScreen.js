@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 
 import AppText from "../config/AppText";
 import AppButton from "../components/AppButton";
 import Colours from "../config/Colours";
 
-function WelcomeScreen({ navigation }) {
+function WelcomeScreen({ route, navigation }) {
   return (
     <ImageBackground
       source={require("../assets/familyphoto.jpg")}

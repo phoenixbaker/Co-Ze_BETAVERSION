@@ -20,7 +20,7 @@ export default function DisplayImage({ img, imageStyle }) {
 
 const styles = StyleSheet.create({
   SvgImage: {
-    margin: 4,
+    marginRight: 10,
     backgroundColor: Colours.white,
     justifyContent: "center",
     alignItems: "center",

@@ -28,14 +28,7 @@ function EventsScreen(props) {
     let tempDates = [];
     Object.entries(household.events).forEach((event, i) => {
       event[1].forEach((dayEvent) => {
-        if (!tempDates.length) {
-          tempDates.push(dayEvent.event.day.dateString);
-        } else {
-          tempDates.forEach((date) => {
-            if (date !== dayEvent.event.day.dateString)
-              return tempDates.push(ayEvent.event.day.dateString);
-          });
-        }
+        tempDates.push(event[0]);
 
         if (!tempObj[event[0]]) {
           return (tempObj[event[0]] = [
@@ -57,19 +50,20 @@ function EventsScreen(props) {
     });
     setItems(tempObj);
     setEventDates(tempDates);
+    loadItems({ timestamp: Date.now() });
     // const time = Date.now();
   };
 
   useEffect(() => {
     handleMarkers();
-  }, []);
+  }, [household.events]);
 
   const handleDaySelect = (day) => {
     return setSelectedDay(day);
   };
 
   const loadItems = (day) => {
-    for (let i = -15; i < 13; i++) {
+    for (let i = -7; i < 14; i++) {
       let timeAdded = Math.abs(i) * 24 * 60 * 60 * 1000;
       if (i < 0) timeAdded *= -1;
       const time = day.timestamp + timeAdded;
@@ -91,6 +85,7 @@ function EventsScreen(props) {
   };
 
   const renderItem = (item) => {
+    console.log(item);
     return (
       <View
         style={{
@@ -109,7 +104,7 @@ function EventsScreen(props) {
             borderWidth: 2,
             borderRadius: 15,
           }}
-          subTitle={item.details}
+          subTitle={item.details !== "" && item.details}
           detailContainerStyles={{ justifyContent: "center" }}
           JSXImage={
             <DisplayImage
@@ -134,9 +129,12 @@ function EventsScreen(props) {
           <View style={{ flex: 1 }}>
             <Agenda
               items={items}
-              onDayPress={(day) => handleDaySelect(day)}
-              onDayChange={(day) => handleDaySelect(day)}
-              loadItemsForMonth={loadItems}
+              onDayPress={(day) => {
+                loadItems(day);
+                handleDaySelect(day);
+              }}
+              onDayChange={(day) => loadItems(day)}
+              // loadItemsForMonth={loadItems}
               renderItem={renderItem}
             />
           </View>

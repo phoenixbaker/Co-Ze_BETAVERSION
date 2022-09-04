@@ -11,12 +11,6 @@ export default function SettingsScreenNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Settings" component={AccountScreen} />
-
-      <Stack.Screen
-        name="Profile_Picture"
-        component={ProfilePictureScreen}
-        option={{ headerShown: true }}
-      />
     </Stack.Navigator>
   );
 }

@@ -52,4 +52,10 @@ const getStreetlocation = async (homeAddress, household_id) => {
   }
 };
 
-export { updateLocation, getLocation, getLngLatLocation, getStreetlocation };
+export {
+  updateLocation,
+  getLocation,
+  getLngLatLocation,
+  getStreetlocation,
+  householdLocation,
+};

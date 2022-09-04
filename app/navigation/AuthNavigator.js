@@ -49,7 +49,11 @@ const AuthNavigator = () => {
         name="EmailVerificationScreen"
         component={EmailVerificationScreen}
       />
-      <Stack.Screen name="Dashboard" component={DashboardNavigation} />
+      <Stack.Screen
+        name="Dashboard"
+        component={DashboardNavigation}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };

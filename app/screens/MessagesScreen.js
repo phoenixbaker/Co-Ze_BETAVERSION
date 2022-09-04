@@ -17,7 +17,8 @@ function MessagesScreen({ navigation }) {
   }, [household.users]);
 
   const checkValid = (item) => {
-    if (!([user._id] in item.messages)) return false;
+    if (!item.messages) return false;
+    // if (!([user._id] in item.messages)) return false;
     if (!item.messages[user._id].length) return false;
     return true;
   };
@@ -48,7 +49,15 @@ function MessagesScreen({ navigation }) {
                     selectedUser: item,
                   })
                 }
-                JSXImage={<DisplayImage img={img[item._id]} />}
+                JSXImage={
+                  <DisplayImage
+                    img={img[item._id]}
+                    imageStyle={{
+                      borderWidth: 2,
+                      borderColor: Colours.secondary,
+                    }}
+                  />
+                }
               />
             );
           }}

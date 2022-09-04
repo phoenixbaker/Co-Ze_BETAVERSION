@@ -13,9 +13,11 @@ function AppButton({
   text,
   textStyle,
   onPress,
+  disabled = false,
 }) {
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={[styles.defaultButton, buttonStyle]}
       onPress={onPress}
     >

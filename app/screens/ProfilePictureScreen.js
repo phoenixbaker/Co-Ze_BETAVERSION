@@ -7,6 +7,7 @@ import {
   View,
   ImageBackground,
 } from "react-native";
+import { CommonActions } from "@react-navigation/native";
 
 import useAuth from "../auth/useAuth";
 import AppText from "../config/AppText";
@@ -17,7 +18,7 @@ import SvgIcon from "../components/svgIcon";
 import Colours from "../config/Colours";
 import { postAvatarPicture, postProfilePicture } from "../api/profilepicture";
 
-function ProfilePictureScreen(props) {
+function ProfilePictureScreen({ navigation }) {
   const { user, updateUser, updateUserImage, img } = useAuth();
   const [avatars, setAvatars] = useState([
     { sprite: "adventurer", key: 1 },
@@ -50,7 +51,13 @@ function ProfilePictureScreen(props) {
 
     const res = await postProfilePicture(formData, user);
     await updateUser(res.data);
-    await updateUserImage(res.data.img);
+    await updateUserImage(res.data);
+    return navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "UserNavigator" }],
+      })
+    );
   };
 
   const randomNumber = () => {

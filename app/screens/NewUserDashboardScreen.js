@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import useAuth from "../auth/useAuth";
 import AppButton from "../components/AppButton";
+import { CommonActions } from "@react-navigation/native";
 
 import Screen from "../components/Screen";
 import AppText from "../config/AppText";
@@ -33,7 +34,15 @@ function NewUserDashboardScreen({ navigation }) {
           />
           <AppButton
             text="Log Out"
-            onPress={() => logOut()}
+            onPress={() => {
+              logOut();
+              return navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: "AuthNavigator" }],
+                })
+              );
+            }}
             buttonStyle={styles.logoutButton}
           />
         </View>

@@ -4,6 +4,7 @@ import {
   Image,
   View,
   ActivityIndicator,
+  ImageBackground,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
@@ -64,7 +65,12 @@ export default function StoryReel() {
           if (item._id === user._id && !item.stories.length) {
             return (
               <TouchableOpacity onPress={() => handleStory()}>
-                <DisplayImage img={img[item._id]} imageStyle={styles.noStory} />
+                <View style={{ marginRight: 25 }}>
+                  <DisplayImage
+                    img={img[item._id]}
+                    imageStyle={styles.noStory}
+                  />
+                </View>
               </TouchableOpacity>
             );
           }
@@ -72,28 +78,36 @@ export default function StoryReel() {
             return (
               <>
                 <TouchableOpacity onPress={() => handleStory()}>
-                  <Image
-                    source={{ uri: stories[item._id].img }}
-                    style={styles.image}
-                  />
+                  <View style={{ marginRight: 25 }}>
+                    <ImageBackground
+                      source={{ uri: stories[item._id].img }}
+                      style={{ width: 70, height: 70 }}
+                      imageStyle={styles.image}
+                    >
+                      <DisplayImage
+                        img={img[item._id]}
+                        imageStyle={{
+                          width: 35,
+                          height: 35,
+                          borderWidth: 1,
+                          bottom: 0,
+                        }}
+                      />
+                    </ImageBackground>
+                  </View>
                 </TouchableOpacity>
-                <DisplayImage
-                  img={img[item._id]}
-                  imageStyle={{
-                    width: 35,
-                    height: 35,
-                    borderWidth: 1,
-                    right: 35,
-                    top: 40,
-                  }}
-                />
               </>
             );
           }
           if (!item.stories.length)
             return (
               <TouchableOpacity onPress={() => console.log("here")}>
-                <DisplayImage img={img[item._id]} imageStyle={styles.noStory} />
+                <View style={{ marginRight: 25 }}>
+                  <DisplayImage
+                    img={img[item._id]}
+                    imageStyle={styles.noStory}
+                  />
+                </View>
               </TouchableOpacity>
             );
           return (
@@ -105,21 +119,24 @@ export default function StoryReel() {
                   })
                 }
               >
-                <Image
-                  source={{ uri: stories[item._id].img }}
-                  style={styles.image}
-                />
+                <View style={{ marginRight: 25 }}>
+                  <ImageBackground
+                    source={{ uri: stories[item._id].img }}
+                    style={{ width: 70, height: 70 }}
+                    imageStyle={styles.image}
+                  >
+                    <DisplayImage
+                      img={img[item._id]}
+                      imageStyle={{
+                        width: 35,
+                        height: 35,
+                        borderWidth: 1,
+                        bottom: 0,
+                      }}
+                    />
+                  </ImageBackground>
+                </View>
               </TouchableOpacity>
-              <DisplayImage
-                img={img[item._id]}
-                imageStyle={{
-                  width: 35,
-                  height: 35,
-                  borderWidth: 1,
-                  right: 35,
-                  top: 40,
-                }}
-              />
             </>
           );
         }}
@@ -133,8 +150,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
-    marginRight: 10,
-    marginBottom: 5,
+    marginRight: 25,
     borderWidth: 2,
     borderColor: Colours.primary,
   },
@@ -142,7 +158,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
-    marginRight: 10,
+    marginRight: 25,
     marginBottom: 5,
     borderWidth: 2,
     borderColor: Colours.gray,
@@ -153,6 +169,7 @@ const styles = StyleSheet.create({
     margin: 12,
     flexDirection: "row",
     marginHorizontal: 20,
+    marginRight: 5,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
   },

@@ -26,11 +26,6 @@ export default function EventHandler({
 
   const { img } = useAuth();
 
-  useEffect(() => {
-    console.log(day);
-    console.log(eventDates);
-  }, [day]);
-
   return (
     <View>
       {event === undefined ? (
@@ -54,7 +49,7 @@ export default function EventHandler({
           />
           {visible && <AddEvent day={day} onFocus={onFocus} onBlur={onBlur} />}
           <FlatList
-            data={events[day.dateString]}
+            data={event[day.dateString]}
             keyExtractor={(item, index) => index}
             renderItem={({ item }) => (
               <>
